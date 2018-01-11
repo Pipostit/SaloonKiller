@@ -30,3 +30,7 @@ En tant qu'organisateur
 En tant qu'organisateur
   je veux que la narration du déroulement de la partie soient prise en charge par l'Application
    afin de rendre les moments d'attente moins austere
+
+En tant qu'utilisateur
+je veux pouvoir relancer une partie terminée
+ afin d'éviter de recreer un saloon
