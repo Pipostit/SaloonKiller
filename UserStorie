@@ -1,0 +1,32 @@
+En tant qu'utilisateur
+  je veux pouvoir me connecter depuis n'importe quel appareil mobile doté d'une connexion reseau et d'un navigateur internet
+   afin de pouvoir rejoindre une partie sans installation préalable
+
+En tant qu'utilisateur
+  je veux pouvoir jouer depuis mon telephone sans trahir ma fonction durant la partie
+   afin de pouvoir garder ma fonction secrete jusqu'à ce que le jeu la revelle
+
+En tant qu'utilisateur
+ je veux que les données concernant mon rôle ne soient distribuée que lorsque le jeu le permet
+  afin de pouvoir garder ma fonction secrete jusqu'à ce que le jeu la revelle
+
+
+En tant qu'organisateur
+ je veux pouvoir paramètrer la durer d'un tour entre 5s et 5min
+  afin de permettre une vraie négociation entre les joueurs lorsque la négociation est nécessaire
+
+En tant qu'organisateur
+ je veux pouvoir choisir les cartes mises en jeu parmis celle du jeu original
+  afin de pouvoir garder les habitudes des utilisateurs experimente
+
+En tant qu'organisateur
+  je veux pouvoir creer un salon rapidement, en spécifiant les paramètres de la partie tout en ayant la possibilité de rejoindre la partie
+   afin de pouvoir participer aussi
+
+En tant qu'organisateur
+  je veux que le déroulement en tour par tour du jeu original soit respecté
+   afin de pouvoir garder les habitudes des utilisateurs experimente
+
+En tant qu'organisateur
+  je veux que la narration du déroulement de la partie soient prise en charge par l'Application
+   afin de rendre les moments d'attente moins austere
