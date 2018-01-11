@@ -1,16 +1,34 @@
 var http = require('http');
 var fs = require('fs');
+var path = require('path');
 
 let clientPort = 8080;
 let serverPort = 8081;
 
+// -----------------------------------------------------------------------------
+// Serveur principal
+// -----------------------------------------------------------------------------
+
 var indexServer = http.createServer(function(req, res) {
-    fs.readFile('./main/main.html', 'utf-8', function(error, content) {
-        res.writeHead(200, {"Content-Type": "text/html"});
+    let filename = req.url;
+    if(filename === '/')
+        filename = '/main.html';
+
+    fs.readFile('./main' + filename, 'utf-8', function(error, content) {
+        let extension = path.extname(filename);
+        if(extension === '.js')
+            res.writeHead(200, {"Content-Type": "application/js"});
+        else
+            res.writeHead(200, {"Content-Type": "text/html"});
         res.end(content);
     });
 });
 indexServer.listen(serverPort);
+
+
+// -----------------------------------------------------------------------------
+// Client
+// -----------------------------------------------------------------------------
 
 // Chargement du fichier index.html affiché au client
 var clientServer = http.createServer(function(req, res) {
