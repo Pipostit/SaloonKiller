@@ -1,4 +1,3 @@
-
 var idServ;
 var playerName;
 var bJoin;
@@ -16,7 +15,7 @@ bJoin.onclick = function(){
 bCreate.onclick = function(){
   playerName = Document.getElementById("name").value;
   /* create(idServ,playerName)*/
-  
+
 };
 
 
