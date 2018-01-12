@@ -5,6 +5,9 @@ var path = require('path');
 let clientPort = 8080;
 let serverPort = 8081;
 
+// Array contenant les sockets s'étant connectés au serveur
+let sockets = [];
+
 // -----------------------------------------------------------------------------
 // Serveur principal
 // -----------------------------------------------------------------------------
@@ -30,20 +33,6 @@ indexServer.listen(serverPort);
 // Client
 // -----------------------------------------------------------------------------
 
-let sockets = [];
-function getConnectedPlayers() {
-    let ret = '';
-
-    for(let i=0, len=sockets.length-1; i<len; i++) {
-        let curr = sockets[i].pseudo;
-        ret += (curr + ' - ');
-    }
-
-    ret += (sockets[sockets.length-1].pseudo);
-
-    return ret;
-}
-
 // Chargement du fichier index.html affiché au client
 var clientServer = http.createServer(function(req, res) {
     fs.readFile('./client/index.html', 'utf-8', function(error, content) {
@@ -56,7 +45,7 @@ var io = require('socket.io').listen(clientServer);
 
 // Quand un client se connecte, on le note dans la console
 io.sockets.on('connection', function (socket) {
-    // Fonction callback
+    // Fonction callback, qui initialise tous les listeners avec les clients
 
     // Envoie un message à tous les clients connectés
 	// socket.broadcast.emit('message', 'Un autre joueur vient de se connecter !');
@@ -64,17 +53,14 @@ io.sockets.on('connection', function (socket) {
     // Envoie un message via le socket courant
     // socket.emit('message', 'yo test');
 
-    // Quand le serveur reçoit un signal dke type "message" du client
-    socket.on('message', function (message) {
-        console.log(socket.pseudo + ' me parle ! Il me dit : ' + message);
-    });
-
     // Mettre des informations en mémoire concernant le socket courant
     socket.on('newPlayer', function(pseudo) {
         socket.pseudo = pseudo;
         console.log(pseudo + ' a rejoint la partie !');
-        socket.emit('joined');
         sockets.push(socket);
+        // Confirmation au client qu'il est connecté au serveur
+        socket.emit('playerJoined');
+
         console.log('Joueurs connectés : ' + getConnectedPlayers());
     });
 });
@@ -85,3 +71,19 @@ console.log('-------------------------------------------------------------------
 //console.log('Serveur LoupGarou lancé sur le port ' + serverPort + '...');
 console.log('En attente de joueurs sur le port ' + clientPort + '...');
 console.log('-------------------------------------------------------------------');
+
+
+// -----------------------------------------------------------------------------
+// Fonctions internes
+// -----------------------------------------------------------------------------
+
+function getConnectedPlayers() {
+    let ret = [];
+
+    for(let i=0, len=sockets.length; i<len; i++) {
+        let curr = sockets[i].pseudo;
+        ret.push(curr);
+    }
+
+    return ret;
+}

@@ -22,14 +22,9 @@
                 socket.emit('newPlayer', document.getElementById("pseudo").value);
             }
 
-            socket.on('joined', function() {
+            socket.on('playerJoined', function() {
                 document.getElementById('connexionForm').style.display = 'none';
                 document.getElementById('indicator').innerText = 'En attente du début de partie...';
-            });
-
-
-            socket.on('message', function(message) {
-                alert('Le serveur a un message pour vous : ' + message);
             });
         </script>
     </body>
