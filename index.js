@@ -44,7 +44,6 @@ var io = require('socket.io').listen(clientServer);
 io.sockets.on('connection', function (socket) {
     // Fonction callback
 
-    console.log('Un joueur est connecté !');
     // Envoie un message à tous les clients connectés
 	// socket.broadcast.emit('message', 'Un autre joueur vient de se connecter !');
 
@@ -59,10 +58,14 @@ io.sockets.on('connection', function (socket) {
     // Mettre des informations en mémoire concernant le socket courant
     socket.on('newPlayer', function(pseudo) {
         socket.pseudo = pseudo;
+        console.log(pseudo + ' a rejoint la partie !');
+        socket.emit('joined');
     });
 });
 
 
 clientServer.listen(clientPort);
-console.log('Serveur LoupGarou lancé sur le port ' + serverPort + '...');
+console.log('-------------------------------------------------------------------');
+//console.log('Serveur LoupGarou lancé sur le port ' + serverPort + '...');
 console.log('En attente de joueurs sur le port ' + clientPort + '...');
+console.log('-------------------------------------------------------------------');
