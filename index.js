@@ -30,6 +30,20 @@ indexServer.listen(serverPort);
 // Client
 // -----------------------------------------------------------------------------
 
+let sockets = [];
+function getConnectedPlayers() {
+    let ret = '';
+
+    for(let i=0, len=sockets.length-1; i<len; i++) {
+        let curr = sockets[i].pseudo;
+        ret += (curr + ' - ');
+    }
+
+    ret += (sockets[sockets.length-1].pseudo);
+
+    return ret;
+}
+
 // Chargement du fichier index.html affiché au client
 var clientServer = http.createServer(function(req, res) {
     fs.readFile('./client/index.html', 'utf-8', function(error, content) {
@@ -50,7 +64,7 @@ io.sockets.on('connection', function (socket) {
     // Envoie un message via le socket courant
     // socket.emit('message', 'yo test');
 
-    // Quand le serveur reçoit un signal de type "message" du client
+    // Quand le serveur reçoit un signal dke type "message" du client
     socket.on('message', function (message) {
         console.log(socket.pseudo + ' me parle ! Il me dit : ' + message);
     });
@@ -60,6 +74,8 @@ io.sockets.on('connection', function (socket) {
         socket.pseudo = pseudo;
         console.log(pseudo + ' a rejoint la partie !');
         socket.emit('joined');
+        sockets.push(socket);
+        console.log('Joueurs connectés : ' + getConnectedPlayers());
     });
 });
 
