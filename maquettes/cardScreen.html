@@ -2,8 +2,15 @@
 <html>
     <body>
         <style>
-            html {
+            .container {
+                position: absolute;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+
                 overflow: hidden;
+                border: 20px solid black;
             }
             /* entire container, keeps perspective */
             .flip-container {
@@ -18,8 +25,8 @@
             }
 
             .flip-container, .front, .back {
-                width: 320px;
-                height: 480px;
+                width: 400px;
+                height: 400px;
             }
 
             /* flip speed goes here */
@@ -51,17 +58,21 @@
                 transform: rotateY(180deg);
             }
         </style>
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-        	<div class="flipper">
-        		<div class="front">
-        			<!-- front content -->
-                    <img src="../assets/cartes/petitefille.png">
-        		</div>
-        		<div class="back">
-        			<!-- back content -->
-                    <img src="../assets/cartes/loupgarou.png">
-        		</div>
-        	</div>
+
+        <div class="container">
+            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+            	<div class="flipper">
+            		<div class="front">
+            			<!-- front content -->
+                        <img src="../assets/cartes/dos.png">
+            		</div>
+            		<div class="back">
+            			<!-- back content -->
+                        <img src="../assets/cartes/loupgarou.png">
+            		</div>
+            	</div>
+            </div>
         </div>
+
     </body>
 </html>
