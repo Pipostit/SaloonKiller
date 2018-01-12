@@ -1,5 +1,9 @@
 <!doctype html>
 <html>
+    <head>
+        <title>Maquette du client (joueur)</title>
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    </head>
     <body>
         <style>
             .container {
@@ -10,7 +14,11 @@
                 bottom:0;
 
                 overflow: hidden;
-                border: 20px solid black;
+                border: 30px solid black;
+                background-image: url('bg.jpg');
+                background-size: cover;
+
+                font-family: 'Indie Flower', cursive;
             }
             /* entire container, keeps perspective */
             .flip-container {
@@ -20,18 +28,22 @@
                 margin-top: 10%;
             }
             /* flip the pane when hovered */
-            .flip-container:hover .flipper, .flip-container.hover .flipper {
+            .container:hover .flipper, .container.hover .flipper{
                 transform: rotateY(180deg);
+            }
+            .container:hover .info, .container.hover .info {
+                opacity: 1;
             }
 
             .flip-container, .front, .back {
-                width: 400px;
-                height: 400px;
+                width: 600px;
+                height: 600px;
             }
 
             /* flip speed goes here */
             .flipper {
-                transition: 0.6s;
+                /* 0.6s */
+                transition: 1s;
                 transform-style: preserve-3d;
 
                 position: relative;
@@ -57,20 +69,35 @@
             .back {
                 transform: rotateY(180deg);
             }
+
+            .info {
+                background-color: black;
+                color: white;
+                font-size: 5vw;
+                margin: 50px;
+                padding: 1px 50px;
+                border-radius: 40px;
+                opacity: 0;
+                transition: all 1s ease-out;
+            }
         </style>
 
-        <div class="container">
-            <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="container" ontouchstart="this.classList.toggle('hover');">
+            <div class="flip-container">
             	<div class="flipper">
             		<div class="front">
             			<!-- front content -->
-                        <img src="../assets/cartes/dos.png">
+                        <img src="../assets/cartes/dos.png" style="width:100%">
             		</div>
             		<div class="back">
             			<!-- back content -->
-                        <img src="../assets/cartes/loupgarou.png">
+                        <img src="../assets/cartes/loupgarou.png" style="width:100%">
             		</div>
             	</div>
+            </div>
+            <div class="info">
+                <h2>Tu es un Loup-Garou !</h2>
+                <p>Ton objectif est, en coopération avec les autres loups, de tuer tous les villageois.</p>
             </div>
         </div>
 
