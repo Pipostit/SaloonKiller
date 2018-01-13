@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Maquette du client (joueur)</title>
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    </head>
+    <body>
+        <style>
+            .container {
+                position: absolute;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+
+                overflow: hidden;
+                border: 30px solid darkred;
+                background-image: url('img/bg.jpg');
+                background-size: cover;
+
+                font-family: 'Indie Flower', cursive;
+            }
+            /* entire container, keeps perspective */
+            .flip-container {
+                perspective: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 10%;
+            }
+
+
+            .flip-container, .front, .back {
+                width: 600px;
+                height: 600px;
+            }
+
+            /* flip speed goes here */
+            .flipper {
+                /* 0.6s */
+                transition: 1s;
+                transform-style: preserve-3d;
+                transform: rotateY(180deg);
+
+                position: relative;
+            }
+
+            /* hide back of pane during swap */
+            .front, .back {
+                backface-visibility: hidden;
+
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            /* front pane, placed above back */
+            .front {
+                z-index: 2;
+                /* for firefox 31 */
+                transform: rotateY(0deg);
+            }
+
+            /* back, initially hidden pane */
+            .back {
+                transform: rotateY(180deg);
+            }
+
+            .info {
+                background-color: black;
+                color: white;
+                font-size: 5vw;
+                margin: 50px;
+                padding: 1px 50px;
+                border-radius: 40px;
+                opacity: 1;
+                transition: all 1s ease-out;
+            }
+        </style>
+
+        <div class="container">
+            <div class="flip-container">
+            	<div class="flipper">
+            		<div class="front">
+            			<!-- front content -->
+                        <img src="../assets/cartes/dos.png" style="width:100%">
+            		</div>
+            		<div class="back">
+            			<!-- back content -->
+                        <img src="../assets/cartes/loupgarou.png" style="width:100%">
+            		</div>
+            	</div>
+            </div>
+            <div class="info">
+                <h2>Tu étais un Loup-Garou !</h2>
+                <p>Tu as été tué par les villageois.</p>
+            </div>
+        </div>
+
+    </body>
+</html>
