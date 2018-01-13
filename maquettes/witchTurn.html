@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Maquette du client (tour de la sorcière)</title>
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    </head>
+    <body>
+        <style>
+            .container {
+                position: absolute;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+
+                overflow-y: scroll;
+                border: 30px solid black;
+                background-image: url('img/bg.jpg');
+                background-size: cover;
+
+                font-family: 'Indie Flower', cursive;
+                font-size: 5vw;
+            }
+
+
+            #killed {
+                margin: auto;
+                width: 75%;
+                margin-top: 30px;
+                background-color: rgba(255,0,0,0.6);
+                padding: 20px;
+                border-radius: 20px;
+            }
+
+            #potionsContainer {
+                width: 100%;
+                margin-top: 50px;
+            }
+
+            .potion {
+                width: 40%;
+                background-image: url('img/potion.png');
+                background-size: 85%;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 500px;
+                margin: 4%;
+                border-radius: 80px;
+                border: none;
+            }
+
+            .lifePotion {
+                background-color: rgba(0,255,0,0.6);
+            }
+
+            .deathPotion {
+                background-color: rgba(255,0,0,0.5);
+            }
+            .pass {
+                width: 90%;
+                margin: 5%;
+                background-color: blue;
+                font-size: inherit;
+                padding: 20px;
+                color: white;
+            }
+
+            .list {
+                display: none;
+                margin: 50px;
+            }
+
+            .list li {
+                background-color: black;
+                color: white;
+                padding: 20px;
+                list-style: none;
+                margin-bottom: 20px;
+                border-radius: 20px;
+            }
+
+            #info {
+                background-color: black;
+                color: white;
+                margin: 50px;
+                padding: 1px 50px;
+                border-radius: 40px;
+                opacity: 0;
+                transition: all 1s ease-out;
+            }
+
+            .choiceBtn {
+                font-size: inherit;
+                background-color: black;
+                border: 5px solid white;
+                color: white;
+                border-radius: 20px;
+                padding: 20px 40px;
+                margin: 50px;
+            }
+        </style>
+
+        <div class="container">
+            <div id="killed">
+                <i>Jacky</i> a été tué pendant ce tour.
+            </div>
+
+            <div id="potionsContainer">
+                <button class="potion lifePotion" onclick="showDeadPlayers()"></button>
+                <button class="potion deathPotion" onclick="showAlivePlayers()"></button>
+                <button class='pass' onclick="passTour()">Passer le tour</button>
+            </div>
+
+            <ul id="deadPlayers" class="list">
+                <li onclick="askSavePlayer('Jacky')">Jacky</li>
+            </ul>
+
+            <ul id="alivePlayers" class="list">
+                <li onclick="askKillPlayer('Baby')">Baby</li>
+                <li onclick="askKillPlayer('Michel')">Michel</li>
+                <li onclick="askKillPlayer('José')">José</li>
+                <li onclick="askKillPlayer('Thierry')">Thierry</li>
+                <li onclick="askKillPlayer('Steuvy')">Steuvy</li>
+            </ul>
+
+            <div id="info">
+                <h2 id="target"></h2>
+                <p id="confirmation"></p>
+                <div id="btnContainer">
+                    <button class='choiceBtn' id="yesBtn">Oui</button>
+                    <button class='choiceBtn' onclick="showPotionsMenu()">Non</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <script type="text/javascript">
+                let killed = document.getElementById('killed');
+                let potions = document.getElementById('potionsContainer');
+                let alivePlayers = document.getElementById('alivePlayers');
+                let deadPlayers = document.getElementById('deadPlayers');
+                let info = document.getElementById('info');
+                let yesBtn = document.getElementById('yesBtn');
+                let btns = document.getElementById('btnContainer');
+
+                function showDeadPlayers() {
+                    potions.style.display = 'none';
+                    alivePlayers.style.display = 'none';
+                    deadPlayers.style.display = 'block';
+                }
+                function showAlivePlayers() {
+                    potions.style.display = 'none';
+                    alivePlayers.style.display = 'block';
+                    deadPlayers.style.display = 'none';
+                }
+                function showPotionsMenu() {
+                    potions.style.display = 'block';
+                    alivePlayers.style.display = 'none';
+                    deadPlayers.style.display = 'none';
+                    info.style.opacity = '0';
+                }
+                function showInfo() {
+                    info.style.opacity = '1';
+                }
+
+                let target = document.getElementById('target');
+                let confirm = document.getElementById('confirmation');
+                function askSavePlayer(name) {
+                    target.innerText = 'Résurrection';
+                    confirm.innerText = 'Veux-tu vraiment ramener ' + name + ' à la vie ?';
+                    yesBtn.onclick = () => {
+                        savePlayer(name);
+                    };
+                    showInfo();
+                }
+                function askKillPlayer(name) {
+                    target.innerText = 'Meurtre';
+                    confirm.innerText = 'Veux-tu vraiment tuer ' + name + ' ?';
+                    yesBtn.onclick = () => {
+                        killPlayer(name);
+                    };
+                    showInfo();
+                }
+
+                function killPlayer(name) {
+                    btns.style.display = 'none';
+                    potions.style.display = 'none';
+                    alivePlayers.style.display = 'none';
+                    deadPlayers.style.display = 'none';
+                    killed.style.display = 'none';
+                    confirmation.innerText = 'Tu as tué ' + name + ' de sang-froid.';
+                    // envoi du kill au serveur
+                }
+                function savePlayer(name) {
+                    btns.style.display = 'none';
+                    potions.style.display = 'none';
+                    alivePlayers.style.display = 'none';
+                    deadPlayers.style.display = 'none';
+                    killed.style.display = 'none';
+                    confirmation.innerText = 'Tu as sauvé ' + name + ' d\'une mort certaine.';
+                    // envoi du sauvetage au serveur
+                }
+                function passTour(){
+                    btns.style.display = 'none';
+                    potions.style.display = 'none';
+                    alivePlayers.style.display = 'none';
+                    deadPlayers.style.display = 'none';
+                    killed.style.display = 'none';
+                    target.innerText = '';
+                    confirmation.innerText = 'Tu passes donc ton tour.';
+                    showInfo();
+                    // envoi de l'info au serveur
+                }
+            </script>
+        </footer>
+    </body>
+</html>
