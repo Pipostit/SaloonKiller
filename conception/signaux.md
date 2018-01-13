@@ -12,7 +12,7 @@
 ### Serveur => Client
 
 * `playerJoined` : confirmation que le nouveau client est bien connecté
-* `gameStarted`
+* `gameStarted` : envoyé au lancement de la partie
 * `sorciereTurn`
 * `cupidonTurn`
 * `loupTurn`

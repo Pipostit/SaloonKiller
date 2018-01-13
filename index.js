@@ -60,10 +60,12 @@ io.sockets.on('connection', function (socket) {
         sockets.push(socket);
         // Confirmation au client qu'il est connecté au serveur
         socket.emit('playerJoined');
-
-        console.log('Joueurs connectés : ' + getConnectedPlayers());
     });
 });
+
+setInterval(() => {
+    console.log('Joueurs connectés : ' + getConnectedPlayers());
+}, 5000);
 
 
 clientServer.listen(clientPort);
@@ -86,4 +88,9 @@ function getConnectedPlayers() {
     }
 
     return ret;
+}
+
+function launchGame() {
+    for (let i in sockets)
+        sockets[i].emit('gameStarted');
 }

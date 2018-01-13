@@ -26,6 +26,10 @@
                 document.getElementById('connexionForm').style.display = 'none';
                 document.getElementById('indicator').innerText = 'En attente du début de partie...';
             });
+
+            socket.on('gameStarted', () => {
+                document.getElementById('indicator').innerText = 'Partie lancée !';
+            });
         </script>
     </body>
 </html>
