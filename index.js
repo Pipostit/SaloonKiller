@@ -136,32 +136,3 @@ function launchGame() {
     gameEngine.launchGame();
 
 }
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function shuffleCard(deck){
-/*
-  function return a shuffle version of the deck
-  entry: deck is an Array
-  return: shuffleDeck a new Array
-*/
-
-pool = new Array();
-for (i = 0; i < deck.length; i++) {
-    pool[i] = i;
-}
-shuffleDeck = new Array();
-for (i = 0; i < deck.length; i++){
-
-  k = getRandomInt(0,pool.length);
-  shuffleDeck[i] = deck[pool.splice(k,1)];
-}
-
-
-return shuffleDeck;
-
-}
