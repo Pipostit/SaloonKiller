@@ -20,13 +20,23 @@
 
                 font-family: 'Indie Flower', cursive;
             }
+
             /* entire container, keeps perspective */
             .flip-container {
                 perspective: 1000px;
                 margin-left: auto;
                 margin-right: auto;
                 margin-top: 10%;
+
+                animation-name: cardFadeIn;
+                animation-duration: 0.8s;
+                animation-timing-function: ease-out;
             }
+            @keyframes cardFadeIn {
+                0%   {margin-top: -100%;}
+                100% {margin-top: 10%;}
+            }
+
             /* flip the pane when hovered */
             .container:hover .flipper, .container.hover .flipper{
                 transform: rotateY(180deg);
@@ -80,6 +90,8 @@
                 opacity: 0;
                 transition: all 1s ease-out;
             }
+
+
         </style>
 
         <div class="container" ontouchstart="this.classList.toggle('hover');">
