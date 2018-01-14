@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Maquette du client (joueur)</title>
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    </head>
+    <body>
+        <style>
+            .container {
+                position: absolute;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+
+                overflow: hidden;
+                border: 30px solid black;
+                background-image: url('img/bg.jpg');
+                background-size: cover;
+
+                font-family: 'Indie Flower', cursive;
+            }
+
+            .info {
+                background-color: black;
+                color: white;
+                font-size: 5vw;
+                margin: 50px;
+                padding: 1px 50px;
+                border-radius: 40px;
+                opacity: 1;
+                transition: all 1s ease-out;
+            }
+
+            .info button, .info input {
+                font-size: inherit;
+                background-color: black;
+                border: 5px solid white;
+                color: white;
+                border-radius: 20px;
+                padding: 20px 40px;
+                margin: 10px 10px 50px 10px;
+            }
+
+        </style>
+
+        <div class="container">
+            <div class="info">
+                <h2>Rejoindre la partie</h2>
+                <input type="text" placeholder="Pseudo">
+                <button onclick="">Rejoindre</button>
+            </div>
+        </div>
+    </body>
+</html>
