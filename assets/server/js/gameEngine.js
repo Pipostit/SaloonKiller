@@ -23,9 +23,9 @@ let gameEngine = (function() {
 
         for(let i=0; i<n; i++) {
             if(i<middle) {
-                cards.push('self.cardsEnum.villageois');
+                cards.push(self.cardsEnum.villageois);
             } else {
-                cards.push('self.cardsEnum.loupgarou');
+                cards.push(self.cardsEnum.loupgarou);
             }
         }
         console.log('La pile de cartes a été remplie avec ' + n + ' cartes.')

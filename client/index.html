@@ -3,34 +3,40 @@
     <head>
         <meta charset="utf-8" />
         <title>garou.js</title>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/card.css">
     </head>
 
     <body>
-        <h1 id="indicator">Rejoindre la partie</h1>
+        <div class="container">
 
-        <div id="connexionForm">
-            <input type="text" id="pseudo">
-            <button onclick="connectToServer()">Connexion</button>
+            <!-- afficheur recto/verso de la carte -->
+            <div id="flip-container">
+            	<div class="flipper">
+            		<div class="front">
+            			<!-- front content -->
+                        <img src="cartes/dos.png" style="width:100%">
+            		</div>
+            		<div class="back">
+            			<!-- back content -->
+                        <img id="cardImage" src="cartes/loupgarou.png" style="width:100%">
+            		</div>
+            	</div>
+            </div>
+
+            <!-- div affichant les informations -->
+            <div id="info">
+                <h2 id=indicator>Rejoindre la partie</h2>
+                <nav id="connexionForm">
+                    <input id="pseudo" type="text" placeholder="Pseudo">
+                    <button onclick="connectToServer()">Rejoindre</button>
+                </nav>
+                <p id="indicatorText"></p>
+            </div>
+
         </div>
 
         <script src="/socket.io/socket.io.js"></script>
-        <script>
-            var port = 8080;
-            var socket = io.connect('http://localhost:' + port);
-
-
-            function connectToServer() {
-                socket.emit('newPlayer', document.getElementById("pseudo").value);
-            }
-
-            socket.on('playerJoined', function() {
-                document.getElementById('connexionForm').style.display = 'none';
-                document.getElementById('indicator').innerText = 'En attente du début de partie...';
-            });
-
-            socket.on('gameStarted', (data) => {
-                document.getElementById('indicator').innerText = 'Partie lancée ! Vous êtes ' + (data);
-            });
-        </script>
+        <script src="main.js"></script>
     </body>
 </html>
