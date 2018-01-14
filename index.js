@@ -36,8 +36,37 @@ indexServer.listen(serverPort);
 
 // Chargement du fichier index.html affiché au client
 var clientServer = http.createServer(function(req, res) {
-    fs.readFile('./client/index.html', 'utf-8', function(error, content) {
-        res.writeHead(200, {"Content-Type": "text/html"});
+    let filename = req.url;
+
+    if(filename === '/')
+        filename = '/index.html';
+    let type = {"Content-Type": "text/html"};
+
+    fs.readFile('./client' + filename, 'utf-8', function(error, content) {
+
+        let extension = path.extname(filename);
+        switch(extension) {
+            case '.css':
+                type = {"Content-Type": "text/css"};
+                break;
+            case '.js':
+                type = {"Content-Type": "application/js"};
+                break;
+            case '.jpg':
+                var img = fs.readFileSync('./client' + filename);
+                res.writeHead(200, {"Content-Type": "image/jpeg"});
+                res.end(img, 'binary');
+                return;
+            case '.png':
+                var img = fs.readFileSync('./client' + filename);
+                res.writeHead(200, {"Content-Type": "image/png"});
+                res.end(img, 'binary');
+                return;
+            default:
+                break;
+        }
+
+        res.writeHead(200, type);
         res.end(content);
     });
 });
@@ -64,9 +93,11 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
+// lancement automatique de la partie
+
 setTimeout(() => {
     launchGame();
-}, 20000);
+}, 8000);
 
 
 clientServer.listen(clientPort);
