@@ -1,6 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+var gameEngine = require('./assets/server/js/gameEngine');
 
 let clientPort = 8080;
 let serverPort = 8081;
@@ -63,9 +64,9 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-setInterval(() => {
-    console.log('Joueurs connectés : ' + getConnectedPlayers());
-}, 5000);
+setTimeout(() => {
+    launchGame();
+}, 20000);
 
 
 clientServer.listen(clientPort);
@@ -91,6 +92,16 @@ function getConnectedPlayers() {
 }
 
 function launchGame() {
-    for (let i in sockets)
-        sockets[i].emit('gameStarted');
+    gameEngine.initGame(sockets.length);
+
+    // distribution des cartes
+    for(let i in sockets) {
+        let card = gameEngine.getCard();
+        sockets[i].card = card;
+        sockets[i].emit('gameStarted', card);
+    }
+
+    // lancement de la partie
+    gameEngine.launchGame();
+
 }

@@ -18,6 +18,7 @@
             var port = 8080;
             var socket = io.connect('http://localhost:' + port);
 
+
             function connectToServer() {
                 socket.emit('newPlayer', document.getElementById("pseudo").value);
             }
@@ -27,8 +28,8 @@
                 document.getElementById('indicator').innerText = 'En attente du début de partie...';
             });
 
-            socket.on('gameStarted', () => {
-                document.getElementById('indicator').innerText = 'Partie lancée !';
+            socket.on('gameStarted', (data) => {
+                document.getElementById('indicator').innerText = 'Partie lancée ! Vous êtes ' + (data);
             });
         </script>
     </body>
