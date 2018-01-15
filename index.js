@@ -85,6 +85,10 @@ io.sockets.on('connection', function (socket) {
 
     // Mettre des informations en mémoire concernant le socket courant
     socket.on('newPlayer', function(pseudo) {
+        if(isPseudoAlreadyUsed(pseudo)) {
+            socket.emit('pseudoAlreadyUsed');
+            return;
+        }
         socket.pseudo = pseudo;
         console.log(pseudo + ' a rejoint la partie !');
         sockets.push(socket);
@@ -100,10 +104,11 @@ io.sockets.on('connection', function (socket) {
 
 // lancement automatique de la partie
 
+/*
 setTimeout(() => {
     launchGame();
 }, 8000);
-
+*/
 
 clientServer.listen(clientPort);
 console.log('-------------------------------------------------------------------');
@@ -127,6 +132,14 @@ function getConnectedPlayers() {
     return ret;
 }
 
+function isPseudoAlreadyUsed(pseudo) {
+    let players = getConnectedPlayers();
+    for(let i=0, len=players.length; i<len; i++)
+        if(players[i] === pseudo)
+            return true;
+    return false;
+}
+
 function launchGame() {
     gameEngine.initGame(sockets.length);
 
@@ -139,5 +152,4 @@ function launchGame() {
 
     // lancement de la partie
     gameEngine.launchGame();
-
 }

@@ -25,6 +25,10 @@ socket.on('playerJoined', function() {
     document.getElementById('indicator').innerText = 'En attente du début de partie...';
 });
 
+socket.on('pseudoAlreadyUsed', () => {
+    document.getElementById('indicator').innerText = 'Pseudo déjà pris !';
+});
+
 socket.on('gameStarted', (data) => {
     document.getElementById('info').className = 'cardInfo';
     role = data;
