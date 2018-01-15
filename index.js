@@ -85,20 +85,30 @@ io.sockets.on('connection', function (socket) {
 
     // Mettre des informations en mémoire concernant le socket courant
     socket.on('newPlayer', function(pseudo) {
+        if(isPseudoAlreadyUsed(pseudo)) {
+            socket.emit('pseudoAlreadyUsed');
+            return;
+        }
         socket.pseudo = pseudo;
         console.log(pseudo + ' a rejoint la partie !');
         sockets.push(socket);
         // Confirmation au client qu'il est connecté au serveur
         socket.emit('playerJoined');
     });
+
+    // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
+    socket.on('disconnect', (reason) => {
+        console.log(reason);
+    })
 });
 
 // lancement automatique de la partie
 
+/*
 setTimeout(() => {
     launchGame();
 }, 8000);
-
+*/
 
 clientServer.listen(clientPort);
 console.log('-------------------------------------------------------------------');
@@ -122,6 +132,14 @@ function getConnectedPlayers() {
     return ret;
 }
 
+function isPseudoAlreadyUsed(pseudo) {
+    let players = getConnectedPlayers();
+    for(let i=0, len=players.length; i<len; i++)
+        if(players[i] === pseudo)
+            return true;
+    return false;
+}
+
 function launchGame() {
     gameEngine.initGame(sockets.length);
 
@@ -134,34 +152,4 @@ function launchGame() {
 
     // lancement de la partie
     gameEngine.launchGame();
-
-}
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function shuffleCard(deck){
-/*
-  function return a shuffle version of the deck
-  entry: deck is an Array
-  return: shuffleDeck a new Array
-*/
-
-pool = new Array();
-for (i = 0; i < deck.length; i++) {
-    pool[i] = i;
-}
-shuffleDeck = new Array();
-for (i = 0; i < deck.length; i++){
-
-  k = getRandomInt(0,pool.length);
-  shuffleDeck[i] = deck[pool.splice(k,1)];
-}
-
-
-return shuffleDeck;
-
 }
