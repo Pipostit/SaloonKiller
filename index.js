@@ -91,6 +91,11 @@ io.sockets.on('connection', function (socket) {
         // Confirmation au client qu'il est connecté au serveur
         socket.emit('playerJoined');
     });
+
+    // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
+    socket.on('disconnect', (reason) => {
+        console.log(reason);
+    })
 });
 
 // lancement automatique de la partie
