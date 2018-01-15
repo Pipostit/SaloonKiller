@@ -15,12 +15,22 @@
         <legend>Que voulez-vous faire?</legend>
         <ul>
           <li>
-            <label for="name">Entrez votre pseudonyme.</label>
-            <input id="name" name="name" type="text" placeholder="Pseudonyme" required autofocus>
+            <button id="create" type="button">Créer un serveur</button>
+          </li>
+          <li>
+            <label for="nbLoup">Combien de loups-garou:</label>
+            <input id="nbLoup" name="nbLoup" type="range" min="0" max="5" step="1"  placeholder="1">
+            <span id="rangeBoxLg"></span>
+          </li>
+          <li>
+            <label for="nbVil">Combien de villageois:</label>
+            <input id="nbVil" name="nbVil"type="range" min="0" max="20" step="1" placeholder="2">
+            <span id="rangeBoxVil"></span>
+          </li>
+          <li>
+            <p>Le nombre de joueur est de <span id="nbJoueur">3</span></p>
           </li>
           <br>
-          <br>
-          <button id="create" type="button">Créer un serveur</button>
           <li>
             <label for="saloon">Entrez le code du saloon.</label>
             <input id="saloon" name="saloon" type="number" placeholder="00000">

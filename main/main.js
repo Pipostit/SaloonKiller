@@ -1,19 +1,24 @@
 var idServ;
-var playerName;
 var bJoin;
 var bCreate;
-
-bJoin = Document.getElementById("join");
-bCreate = Document.getElementById("create");
+var nbLoup;
+var nbVil;
+var rangeBoxLg;
+var rangeBoxVil;
+var bJoin = Document.getElementById("join");
+var bCreate = Document.getElementById("create");
+Document.getElementById('nbLoup').onchange = function(){
+  document.getElementById('rangeBoxLg').value = Document.getElementById('nbLoup').value;
+} ;
 
 bJoin.onclick = function(){
   idServ = Document.getElementById("saloon").value;
-  playerName = Document.getElementById("name").value;
   /* join(idServ,playerName)*/
 };
 
 bCreate.onclick = function(){
-  playerName = Document.getElementById("name").value;
+  nbLoup = Document.getElementById("nbLoup").value;
+  nbVil = Document.getElementById("nbVil").value;
   /* create(idServ,playerName)*/
 
 };
