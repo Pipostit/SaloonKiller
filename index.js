@@ -29,6 +29,11 @@ var indexServer = http.createServer(function(req, res) {
 });
 indexServer.listen(serverPort);
 
+var ioadmin = require('socket.io').listen(indexServer);
+ioadmin.sockets.on('connection', function (socket) {
+    // Mettre tes signaux ici
+});
+
 
 // -----------------------------------------------------------------------------
 // Client
@@ -112,7 +117,7 @@ setTimeout(() => {
 
 clientServer.listen(clientPort);
 console.log('-------------------------------------------------------------------');
-//console.log('Serveur LoupGarou lancé sur le port ' + serverPort + '...');
+console.log('Serveur LoupGarou lancé sur le port ' + serverPort + '...');
 console.log('En attente de joueurs sur le port ' + clientPort + '...');
 console.log('-------------------------------------------------------------------');
 
