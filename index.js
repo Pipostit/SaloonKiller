@@ -6,7 +6,7 @@ var gameEngine = require('./assets/server/js/gameEngine');
 let clientPort = 8080;
 let serverPort = 8081;
 
-// Array contenant les sockets s'étant connectés au serveur
+// Array contenant les sockets connectés au serveur
 let sockets = [];
 
 // -----------------------------------------------------------------------------
@@ -103,7 +103,19 @@ io.sockets.on('connection', function (socket) {
 
     // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
     socket.on('disconnect', (reason) => {
-        console.log(reason);
+        // on vérifie si le client s'était connecté ou bien s'il est anonyme
+        if(socket.pseudo) {
+            console.log(socket.pseudo + ' s\'est déconnecté !');
+
+            // suppression du socket
+            for(let i=0, len=sockets.length; i<len; i++) {
+                let curr = sockets[i].pseudo;
+                if(curr === socket.pseudo) {
+                    sockets.splice(i, 1);
+                    return;
+                }
+            }
+        }
     })
 });
 
