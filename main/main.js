@@ -1,24 +1,32 @@
 var idServ;
 var bJoin;
 var bCreate;
-var nbLoup;
-var nbVil;
+var nbLoup = document.getElementById('nbLoup');
+var nbVil = document.getElementById('nbVil');
 var rangeBoxLg;
 var rangeBoxVil;
-var bJoin = Document.getElementById("join");
-var bCreate = Document.getElementById("create");
-Document.getElementById('nbLoup').onchange = function(){
-  document.getElementById('rangeBoxLg').value = Document.getElementById('nbLoup').value;
+var bJoin = document.getElementById('join');
+var bCreate = document.getElementById('create');
+
+document.getElementById('nbLoup').onchange = function(){
+  document.getElementById('rangeBoxLg').innerHTML  = parseInt(nbLoup.value);
+  document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
+
+} ;
+
+document.getElementById('nbVil').onchange = function(){
+  document.getElementById('rangeBoxVil').innerHTML  = parseInt(nbVil.value);
+  document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
 } ;
 
 bJoin.onclick = function(){
-  idServ = Document.getElementById("saloon").value;
+  idServ = document.getElementById("saloon").value;
   /* join(idServ,playerName)*/
 };
 
 bCreate.onclick = function(){
-  nbLoup = Document.getElementById("nbLoup").value;
-  nbVil = Document.getElementById("nbVil").value;
+  nbLoup = document.getElementById("nbLoup").value;
+  nbVil = document.getElementById("nbVil").value;
   /* create(idServ,playerName)*/
 
 };
