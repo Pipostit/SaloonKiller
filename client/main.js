@@ -17,6 +17,7 @@ let indicatorText = document.getElementById('indicatorText');
 let role = 0;
 
 function connectToServer() {
+    socket.open();
     socket.emit('newPlayer', document.getElementById("pseudo").value);
 }
 
@@ -27,6 +28,13 @@ socket.on('playerJoined', function() {
 
 socket.on('pseudoAlreadyUsed', () => {
     document.getElementById('indicator').innerText = 'Pseudo déjà pris !';
+});
+
+// Détecter la perte de connexion
+socket.on('disconnect', (reason) => {
+    console.log('Perte de connexion avec le serveur : ' + reason);
+    socket.close();
+    showConnexionScreen();
 });
 
 socket.on('gameStarted', (data) => {
@@ -44,6 +52,11 @@ socket.on('gameStarted', (data) => {
     }, 1000);
 });
 
+function showConnexionScreen() {
+    document.getElementById('info').className = '';
+    document.getElementById('connexionForm').style.display = 'block';
+    indicator.innerText = 'Connexion perdue';
+}
 
 function initCardsImages(role) {
     let imageName = '';
