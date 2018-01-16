@@ -48,6 +48,24 @@ socket.on('gameStarted', (data) => {
 function initCardsImages(role) {
     let imageName = '';
     switch (role[0]) {
+        case cardsEnum.chasseur:
+            imageName = 'chasseur.png';
+            break;
+        case cardsEnum.cupidon:
+            imageName = 'cupidon.png'
+            break;
+        case cardsEnum.petitefille:
+            imageName = 'petitefille.png';
+            break;
+        case cardsEnum.sorciere:
+            imageName = 'sorciere.png';
+            break;
+        case cardsEnum.voleur:
+            imageName = 'voleur.png';
+            break;
+        case cardsEnum.voyante:
+            imageName = 'voyante.png';
+            break;
         case cardsEnum.villageois:
             imageName = 'villageois.png';
             break;
@@ -63,6 +81,30 @@ function initCardsImages(role) {
 
 function initInfoPopup(role) {
     switch (role[0]) {
+        case cardsEnum.chasseur:
+            indicator.innerText = 'Tu es le chasseur !';
+            indicatorText.innerText = 'Si tu es tué, tu pourras abattre une personne de ton choix avant de mourir.';
+            break;
+        case cardsEnum.cupidon:
+            indicator.innerText = 'Tu es Cupidon !';
+            indicatorText.innerText = 'Lors du tour préliminaire, tu désignes 2 personnes, qui deviennent alors amoureux.';
+            break;
+        case cardsEnum.petitefille:
+            indicator.innerText = 'Tu es la petite fille !';
+            indicatorText.innerText = 'Tu peux observer discrètement pendant le tour des loups ; attention à ne pas te faire attraper...';
+            break;
+        case cardsEnum.sorciere:
+            indicator.innerText = 'Tu es la sorcière !';
+            indicatorText.innerText = 'Tu possèdes une potion de vie et une autre de mort, qui peuvent respectivement sauver et tuer quelqu\'un.';
+            break;
+        case cardsEnum.voleur:
+            indicator.innerText = 'Tu es le voleur !';
+            indicatorText.innerText = 'Lors du tour préliminaire, tu peux choisir ton rôle parmi 2 cartes non-distribuées.';
+            break;
+        case cardsEnum.voyante:
+            indicator.innerText = 'Tu es la voyante !';
+            indicatorText.innerText = 'Tu peux, à chaque tour, découvrir le véritable rôle d\'un joueur.';
+            break;
         case cardsEnum.villageois:
             indicator.innerText = 'Tu es un villageois !';
             indicatorText.innerText = 'Ton objectif est de tuer tous les loups-garous qui menacent ton village.';
@@ -76,4 +118,5 @@ function initInfoPopup(role) {
             indicatorText.innerText = 'Ton rôle est de débuguer SaloonKiller, qui n\'a pas su reconnaître ton rôle !';
             break;
     }
+
 }
