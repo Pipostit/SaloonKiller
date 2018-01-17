@@ -6,7 +6,7 @@ var gameEngine = require('./assets/server/js/gameEngine');
 let clientPort = 8080;
 let serverPort = 8081;
 
-// Array contenant les sockets connectés au serveur
+// Array contenant les sockets s'étant connectés au serveur
 let sockets = [];
 
 // -----------------------------------------------------------------------------
@@ -32,6 +32,20 @@ indexServer.listen(serverPort);
 var ioadmin = require('socket.io').listen(indexServer);
 ioadmin.sockets.on('connection', function (socket) {
     // Mettre tes signaux ici
+
+        socket.on('admin', function(pseudo) {
+
+            if(isPseudoAlreadyUsed(pseudo)) {
+                socket.emit('pseudoAlreadyUsed');
+                return;
+            }
+            socket.pseudo = pseudo;
+            socket.isAdmin() = function(){return true;};
+            console.log(pseudo + ' a rejoint la partie en tant qu\'admi !');
+            sockets.push(socket);
+            // Confirmation au client qu'il est connecté au serveur
+            socket.emit('adminJoined');
+        });
 });
 
 
@@ -92,19 +106,6 @@ io.sockets.on('connection', function (socket) {
 
 
 
-    socket.on('admin', function(pseudo) {
-
-        if(isPseudoAlreadyUsed(pseudo)) {
-            socket.emit('pseudoAlreadyUsed');
-            return;
-        }
-        socket.pseudo = pseudo;
-        socket.isAdmin() = function(){return true;};
-        console.log(pseudo + ' a rejoint la partie en tant qu\'admi !');
-        sockets.push(socket);
-        // Confirmation au client qu'il est connecté au serveur
-        socket.emit('adminJoined');
-    });
 
 
     socket.on('newPlayer', function(pseudo) {
@@ -113,7 +114,7 @@ io.sockets.on('connection', function (socket) {
             return;
         }
         socket.pseudo = pseudo;
-          socket.isAdmin() = function(){return false;};
+        socket.isAdmin = function(){return false;};
 
         console.log(pseudo + ' a rejoint la partie !');
         sockets.push(socket);
@@ -123,94 +124,79 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('serverSettings', function(startSetting){
     /*setting = {
-        "nChasseur": 1,
-        "nCupidon":1,
-        "nloupgarou":2,
-        "nPetitefille":1,
-        "nSorciere":1,
-        "nVillageois":6,
-        "nVoleur":1,
-        "nVoyante":1
-    };*/
-        if (startSetting['nLoupgarou']<0) {
-          socket.emit("Nombre de loup garou négatif...");
-          return
-        }else{
-        let nbLg = startSetting['nLoupgarou'];
-        };
-        if (startSetting['nVillageois']<0) {
-          socket.emit("Nombre de villageois négatif...");
-          return
-        }else{
-          let nbVil = startSetting['nVillageois'];
-        };
+        "chasseur": 1,
+        "cupidon":1,
+        "loupgarou":2,
+        "petitefille":1,
+        "sorciere":1,
+        "villageois":6,
+        "voleur":1,
+        "voyante":1
+      };*/if(socket.isAdmin()){
+          if (startSetting['loupgarou']<0) {
+            socket.emit("Nombre de loup garou négatif...");
+            return
+          }else{
+          let nbLg = startSetting['loupgarou'];
+          };
+          if (startSetting['villageois']<0) {
+            socket.emit("Nombre de villageois négatif...");
+            return
+          }else{
+            let nbVil = startSetting['villageois'];
+          };
 
-        if(startSetting['nChasseur']>1||startSetting['nChasseur']<0){
-          socket.emit("trop de chasseur");
-          return;
-        }else{
-          let nbCha = startSetting['nbChasseur'];
-        };
+          if(startSetting['chasseur']>1||startSetting['chasseur']<0){
+            socket.emit("trop de chasseur");
+            return;
+          }else{
+            let nbCha = startSetting['chasseur'];
+          };
 
-        if(startSetting['nCupidon']>1||startSetting['nCupidon']<0){
-          socket.emit("trop de cupidon");
-          return;
-        }else{
-          let nbCup = startSetting['nCupidon'];
-        };
-        if(startSetting['nPetitefille']>1||startSetting['nPetitefille']<0){
-          socket.emit("trop de petite fille");
-          return;
-        }else{
-          let nbPf = startSetting['nPetitefille'];
-        };
-        if(startSetting['nSorciere']>1||startSetting['nSorciere']<0){
-          socket.emit("trop de sorciere");
-          return;
-        }else{
-          let nbSor = startSetting['nSorciere'];
-        };
-        if(startSetting['nVoleur']>1||startSetting['nVoleur']<0){
-          socket.emit("trop de voleur");
-          return;
-        }else{
-          let nbVol = startSetting['nVoleur'];
-        };
-        if(startSetting['nVoyante']>1||startSetting['nVoyante']<0){
-          socket.emit("trop de voyante");
-          return;
-        }else{
-          let nbVoy = startSetting['nVoyante'];
-        };
+          if(startSetting['cupidon']>1||startSetting['cupidon']<0){
+            socket.emit("trop de cupidon");
+            return;
+          }else{
+            let nbCup = startSetting['cupidon'];
+          };
+          if(startSetting['petitefille']>1||startSetting['petitefille']<0){
+            socket.emit("trop de petite fille");
+            return;
+          }else{
+            let nbPf = startSetting['petitefille'];
+          };
+          if(startSetting['sorciere']>1||startSetting['sorciere']<0){
+            socket.emit("trop de sorciere");
+            return;
+          }else{
+            let nbSor = startSetting['sorciere'];
+          };
+          if(startSetting['voleur']>1||startSetting['voleur']<0){
+            socket.emit("trop de voleur");
+            return;
+          }else{
+            let nbVol = startSetting['voleur'];
+          };
+          if(startSetting['voyante']>1||startSetting['voyante']<0){
+            socket.emit("trop de voyante");
+            return;
+          }else{
+            let nbVoy = startSetting['voyante'];
+          };
 
-        if(nbVoy-2*nbVol+nbSor+nbLg+nbVil+nbPf+nbCha+nbCup!=sockets.length){
-          socket.emit("Mauvaise configuration: Le nombre de carte ne convient pas au nombre de joueurs.")
-          return
-        }else{
-
-
-
+          if(nbVoy-2*nbVol+nbSor+nbLg+nbVil+nbPf+nbCha+nbCup!=sockets.length){
+            socket.emit("Mauvaise configuration: Le nombre de carte ne convient pas au nombre de joueurs.")
+            return
+          }else{
+            launchGame(startSetting);
+          }
         }
 
-
-      };
-    });
+      });
 
     // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
     socket.on('disconnect', (reason) => {
-        // on vérifie si le client s'était connecté ou bien s'il est anonyme
-        if(socket.pseudo) {
-            console.log(socket.pseudo + ' s\'est déconnecté !');
-
-            // suppression du socket
-            for(let i=0, len=sockets.length; i<len; i++) {
-                let curr = sockets[i].pseudo;
-                if(curr === socket.pseudo) {
-                    sockets.splice(i, 1);
-                    return;
-                }
-            }
-        }
+        console.log(reason);
     })
 });
 
@@ -254,7 +240,7 @@ function isPseudoAlreadyUsed(pseudo) {
 
 function launchGame(startSetting) {
 
-    gameEngine.initGame(sockets.length);
+    gameEngine.initGame(startSetting,sockets.length);
 
     // distribution des cartes
     for(let i in sockets) {

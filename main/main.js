@@ -1,3 +1,9 @@
+
+var port = 8080;
+var socket = io.connect('http://localhost:' + port);
+socket.emit('Admin', 'admin');
+  //document.getElementById("pseudo").value);
+
 var idServ;
 var bJoin;
 var bCreate;
@@ -21,7 +27,8 @@ document.getElementById('nbVil').onchange = function(){
 
 bJoin.onclick = function(){
   idServ = document.getElementById("saloon").value;
-  /* join(idServ,playerName)*/
+  var startSetting = {};
+  socket.emit('serverSettings', startSetting);
 };
 
 bCreate.onclick = function(){
