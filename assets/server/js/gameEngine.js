@@ -14,12 +14,32 @@ let gameEngine = (function() {
 
     /**
       * Initialise la partie
-      * @param {Integer} n - Nombre de joueurs
+      * @param {dictionary of Integer} startSetting - Nombre de carte par roles
+      * @param {Integer} n - nombre de joueurs
+      *setting = {
+      *  "chasseur": 1,
+      *  "cupidon":1,
+      *  "loupgarou":2,
+      *  "petitefille":1,
+      *  "sorciere":1,
+      *  "villageois":6,
+      *  "voleur":1,
+      *  "voyante":1
+      *};
       * @todo remplir la pile en fonction des roles demandés
       **/
-    self.initGame = (n) => {
+    self.initGame = (startSetting,n) => {
         console.log('\nInitialisation de la partie avec ' + n + ' joueurs...\n');
-        let middle = Math.ceil(n/2);
+        for (var [role, nb] of startSetting) {
+          for(let i =0;i<nb;i++){
+            cards.push(self.cardsEnum[role]);
+          };
+        };
+        cards = shuffleCard(cards);
+
+
+        /*let middle = Math.ceil(n/2);
+
 
         for(let i=0; i<n; i++) {
             if(i<middle) {
@@ -27,8 +47,8 @@ let gameEngine = (function() {
             } else {
                 cards.push(self.cardsEnum.loupgarou);
             }
-        }
-        console.log('La pile de cartes a été remplie avec ' + n + ' cartes.')
+        }*/
+        console.log('La pile de cartes a été remplie avec assez de cartes et mélangée.')
     };
 
     /**
@@ -36,6 +56,7 @@ let gameEngine = (function() {
       * Est appelée pour fournir une carte à chaque joueur.
       * @todo renvoyer une carte random de la pile
       **/
+
     self.getCard = () => {
         let leftCards = (cards.length-1);
         if(leftCards !== 0)
