@@ -186,14 +186,8 @@ io.sockets.on('connection', function (socket) {
         if(nbVoy-2*nbVol+nbSor+nbLg+nbVil+nbPf+nbCha+nbCup!=sockets.length){
           socket.emit("Mauvaise configuration: Le nombre de carte ne convient pas au nombre de joueurs.")
           return
-        }else{
+        }else{}
 
-
-
-        }
-
-
-      };
     });
 
     // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
