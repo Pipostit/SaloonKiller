@@ -34,6 +34,7 @@ socket.on('pseudoAlreadyUsed', () => {
 socket.on('disconnect', (reason) => {
     console.log('Perte de connexion avec le serveur : ' + reason);
     socket.close();
+    container.removeEventListener('touchstart', flippingCardListener);
     showConnexionScreen();
 });
 
@@ -45,17 +46,22 @@ socket.on('gameStarted', (data) => {
     // attente de la fin de l'animation de la pop-up info
     setTimeout(() => {
         document.getElementById('flip-container').style.display = 'block';
-        container.addEventListener('touchstart', () => {
-            container.classList.toggle('hover');
-        });
+        container.addEventListener('touchstart', flippingCardListener);
         initInfoPopup(role);
     }, 1000);
 });
 
+function flippingCardListener() {
+    container.classList.toggle('hover');
+    console.log('showing the card');
+}
+
 function showConnexionScreen() {
     document.getElementById('info').className = '';
+    document.getElementById('flip-container').style.display = 'none';
     document.getElementById('connexionForm').style.display = 'block';
     indicator.innerText = 'Connexion perdue';
+    indicatorText.innerText = '';
 }
 
 function initCardsImages(role) {
