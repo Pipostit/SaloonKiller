@@ -113,6 +113,7 @@ io.sockets.on('connection', function (socket) {
                 let curr = sockets[i].pseudo;
                 if(curr === socket.pseudo) {
                     sockets.splice(i, 1);
+                    handleDisconnection();
                     return;
                 }
             }
@@ -273,7 +274,7 @@ io.sockets.on('connection', function (socket) {
         }else{}
 */
     });
-// >>>>>>> e574b8ef1dcf606c7d0f0e7340e68813fe9b961d
+
 });
 
 // lancement automatique de la partie
@@ -307,6 +308,13 @@ function getConnectedPlayers() {
 function getConnectedPlayersCount() {
     let tmp = getConnectedPlayers();
     return tmp.length;
+}
+
+function handleDisconnection() {
+    if(getConnectedPlayersCount() === 0) {
+        console.log('Tous les joueurs sont partis, relancement de la partie...');
+        launchGame();
+    }
 }
 
 function isPseudoAlreadyUsed(pseudo) {
