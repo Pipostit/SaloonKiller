@@ -31,21 +31,20 @@ indexServer.listen(serverPort);
 
 var ioadmin = require('socket.io').listen(indexServer);
 ioadmin.sockets.on('connection', function (socket) {
-    // Mettre tes signaux ici
 
-        socket.on('admin', function(pseudo) {
+    socket.on('admin', function(pseudo) {
 
-            if(isPseudoAlreadyUsed(pseudo)) {
-                socket.emit('pseudoAlreadyUsed');
-                return;
-            }
-            socket.pseudo = pseudo;
-            socket.isAdmin() = function(){return true;};
-            console.log(pseudo + ' a rejoint la partie en tant qu\'admi !');
-            sockets.push(socket);
-            // Confirmation au client qu'il est connecté au serveur
-            socket.emit('adminJoined');
-        });
+        if(isPseudoAlreadyUsed(pseudo)) {
+            socket.emit('pseudoAlreadyUsed');
+            return;
+        }
+        socket.pseudo = pseudo;
+        socket.isAdmin() = function(){return true;};
+        console.log(pseudo + ' a rejoint la partie en tant qu\'admi !');
+        sockets.push(socket);
+        // Confirmation au client qu'il est connecté au serveur
+        socket.emit('adminJoined');
+    });
 });
 
 
@@ -106,8 +105,19 @@ io.sockets.on('connection', function (socket) {
 
     // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
     socket.on('disconnect', (reason) => {
-        console.log(reason);
-    })
+        if(socket.pseudo) {
+             console.log(socket.pseudo + ' s\'est déconnecté !');
+
+            // suppression du socket
+            for(let i=0, len=sockets.length; i<len; i++) {
+                let curr = sockets[i].pseudo;
+                if(curr === socket.pseudo) {
+                    sockets.splice(i, 1);
+                    return;
+                }
+            }
+        }
+    });
 
     socket.on('newPlayer', function(pseudo) {
         if(isPseudoAlreadyUsed(pseudo)) {
@@ -267,12 +277,10 @@ io.sockets.on('connection', function (socket) {
 });
 
 // lancement automatique de la partie
-
-/*
 setTimeout(() => {
     launchGame();
 }, 8000);
-*/
+
 
 clientServer.listen(clientPort);
 console.log('-------------------------------------------------------------------');
@@ -296,6 +304,11 @@ function getConnectedPlayers() {
     return ret;
 }
 
+function getConnectedPlayersCount() {
+    let tmp = getConnectedPlayers();
+    return tmp.length;
+}
+
 function isPseudoAlreadyUsed(pseudo) {
     let players = getConnectedPlayers();
     for(let i=0, len=players.length; i<len; i++)
@@ -306,7 +319,17 @@ function isPseudoAlreadyUsed(pseudo) {
 
 function launchGame(startSetting) {
 
-    gameEngine.initGame(startSetting,sockets.length);
+    let playersCount = getConnectedPlayersCount();
+    if(playersCount === 0) {
+        console.log('Personne n\'a rejoint la partie, relancement du serveur dans 5 secondes...');
+        setTimeout(() => {
+            launchGame();
+        }, 5000);
+        return;
+    }
+
+    // gameEngine.initGame(startSetting,sockets.length);
+    gameEngine.initGame(undefined, getConnectedPlayersCount());
 
     // distribution des cartes
     for(let i in sockets) {

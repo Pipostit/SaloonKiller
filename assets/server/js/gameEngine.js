@@ -30,15 +30,17 @@ let gameEngine = (function() {
       **/
     self.initGame = (startSetting,n) => {
         console.log('\nInitialisation de la partie avec ' + n + ' joueurs...\n');
+
+        /*
         for (var [role, nb] of startSetting) {
           for(let i =0;i<nb;i++){
             cards.push(self.cardsEnum[role]);
           };
         };
         cards = shuffleCard(cards);
+        */
 
-
-        /*let middle = Math.ceil(n/2);
+        let middle = Math.ceil(n/2);
 
 
         for(let i=0; i<n; i++) {
@@ -47,7 +49,7 @@ let gameEngine = (function() {
             } else {
                 cards.push(self.cardsEnum.loupgarou);
             }
-        }*/
+        }
         console.log('La pile de cartes a été remplie avec assez de cartes et mélangée.')
     };
 

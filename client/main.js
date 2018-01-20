@@ -29,8 +29,7 @@ socket.on('pseudoAlreadyUsed', () => {
     document.getElementById('indicator').innerText = 'Pseudo déjà pris !';
 });
 
-<<<<<<< HEAD
-=======
+
 // Détecter la perte de connexion
 socket.on('disconnect', (reason) => {
     console.log('Perte de connexion avec le serveur : ' + reason);
@@ -39,7 +38,6 @@ socket.on('disconnect', (reason) => {
     showConnexionScreen();
 });
 
->>>>>>> e574b8ef1dcf606c7d0f0e7340e68813fe9b961d
 socket.on('gameStarted', (data) => {
     document.getElementById('info').className = 'cardInfo';
     role = data;
@@ -53,11 +51,8 @@ socket.on('gameStarted', (data) => {
     }, 1000);
 });
 
-<<<<<<< HEAD
-=======
 function flippingCardListener() {
     container.classList.toggle('hover');
-    console.log('showing the card');
 }
 
 function showConnexionScreen() {
@@ -67,7 +62,6 @@ function showConnexionScreen() {
     indicator.innerText = 'Connexion perdue';
     indicatorText.innerText = '';
 }
->>>>>>> e574b8ef1dcf606c7d0f0e7340e68813fe9b961d
 
 function initCardsImages(role) {
     let imageName = '';
