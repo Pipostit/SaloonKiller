@@ -104,9 +104,10 @@ io.sockets.on('connection', function (socket) {
 
     // Mettre des informations en mémoire concernant le socket courant
 
-
-
-
+    // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
+    socket.on('disconnect', (reason) => {
+        console.log(reason);
+    })
 
     socket.on('newPlayer', function(pseudo) {
         if(isPseudoAlreadyUsed(pseudo)) {
@@ -133,7 +134,7 @@ io.sockets.on('connection', function (socket) {
         "villageois":6,
         "voleur":1,
         "voyante":1
-      };*/if(socket.isAdmin()){
+      };if(socket.isAdmin()){
           if (startSetting['loupgarou']<0) {
             socket.emit("Nombre de loup garou négatif...");
             return
@@ -194,7 +195,8 @@ io.sockets.on('connection', function (socket) {
         }
 
       });
-=======
+// =======
+/*
         "nChasseur": 1,
         "nCupidon":1,
         "nloupgarou":2,
@@ -203,7 +205,7 @@ io.sockets.on('connection', function (socket) {
         "nVillageois":6,
         "nVoleur":1,
         "nVoyante":1
-    };*/
+    };
         if (startSetting['nLoupgarou']<0) {
           socket.emit("Nombre de loup garou négatif...");
           return
@@ -259,14 +261,9 @@ io.sockets.on('connection', function (socket) {
           socket.emit("Mauvaise configuration: Le nombre de carte ne convient pas au nombre de joueurs.")
           return
         }else{}
-
+*/
     });
->>>>>>> e574b8ef1dcf606c7d0f0e7340e68813fe9b961d
-
-    // Détecter un client qui déconnecte (rafraîchissement / fermeture de l'onglet)
-    socket.on('disconnect', (reason) => {
-        console.log(reason);
-    })
+// >>>>>>> e574b8ef1dcf606c7d0f0e7340e68813fe9b961d
 });
 
 // lancement automatique de la partie
