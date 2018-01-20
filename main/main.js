@@ -12,6 +12,7 @@ var rangeBoxLg;
 var rangeBoxVil;
 var bJoin = document.getElementById('join');
 var bCreate = document.getElementById('create');
+let playersCount = document.getElementById('connectedPlayersCount');
 
 document.getElementById('nbLoup').onchange = function(){
   document.getElementById('rangeBoxLg').innerHTML  = parseInt(nbLoup.value);
@@ -31,10 +32,14 @@ bJoin.onclick = function(){
 };*/
 
 bCreate.onclick = function(){
-  nbLoup = document.getElementById("nbLoup").value;
-  nbVil = document.getElementById("nbVil").value;
-  /* create(idServ,playerName)*/
-  socket.emit('launchGame');
+    if(playersCount.innerText == document.getElementById('nbJoueur').innerText) {
+        nbLoup = document.getElementById("nbLoup").value;
+        nbVil = document.getElementById("nbVil").value;
+        /* create(idServ,playerName)*/
+        socket.emit('launchGame');
+    }
+    else
+        alert('Il n\'y a pas autant de cartes que de joueurs connectés !');
 };
 
 socket.on('updatePlayers', (players) => {
@@ -42,6 +47,7 @@ socket.on('updatePlayers', (players) => {
 });
 function updateConnectedPlayers(players) {
     document.getElementById('connectedPlayers').innerText = players;
+    playersCount.innerText = players.length;
 }
 
 function startWaitingForPlayers() {
