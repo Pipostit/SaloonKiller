@@ -4,6 +4,7 @@
   <head>
 
     <title>Saloon Murder</title>
+    <meta charset="UTF-8">
 
   </head>
 
@@ -11,14 +12,11 @@
 
   <body>
     <h1> Saloon Murder Party! </h1>
-    <p> Bienvenue sur la page de paramètrage de Saloon Murder Party. </p>
-    <form>
+    <p> Bienvenue sur la page de paramétrage de Saloon Murder Party. </p>
+
       <fieldset>
-        <legend>Que voulez-vous faire?</legend>
+        <legend>Paramètres</legend>
         <ul>
-          <li>
-            <button id="create" type="button">Créer un serveur</button>
-          </li>
           <li>
             <label for="nbLoup">Combien de loups-garou:</label>
             <input id="nbLoup" name="nbLoup" type="range" list="tickmarksLg" min="0" max="5" step="1"  placeholder="1">
@@ -53,9 +51,12 @@
           <li>
             <p>Le nombre de joueur est de <span id="nbJoueur">13</span></p>
           </li>
+          <li>
+            <button id="create" type="button">Lancer la partie</button>
+          </li>
         </ul>
 
-    </form>
+    </fieldset>
   </body>
 
 <footer>

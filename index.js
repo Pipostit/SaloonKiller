@@ -294,6 +294,12 @@ console.log('-------------------------------------------------------------------
 // Fonctions internes
 // -----------------------------------------------------------------------------
 
+function getFormattedTime() {
+    return '[' +
+        new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") +
+        '] ';
+}
+
 function getConnectedPlayers() {
     let ret = [];
 
@@ -329,7 +335,7 @@ function launchGame(startSetting) {
 
     let playersCount = getConnectedPlayersCount();
     if(playersCount === 0) {
-        console.log('Personne n\'a rejoint la partie, relancement du serveur dans 5 secondes...');
+        console.log(getFormattedTime() + 'Personne n\'a rejoint la partie, relancement du serveur dans 5 secondes...');
         setTimeout(() => {
             launchGame();
         }, 5000);
