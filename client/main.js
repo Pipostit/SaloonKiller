@@ -17,6 +17,7 @@ let indicatorText = document.getElementById('indicatorText');
 let role = 0;
 
 function connectToServer() {
+    socket.open();
     socket.emit('newPlayer', document.getElementById("pseudo").value);
 }
 
