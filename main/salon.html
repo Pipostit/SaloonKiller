@@ -12,10 +12,14 @@
               startWaitingForPlayers();
           });
       </script>
-    <h1> Saloon Murder Party! </h1>
-    <p> Bienvenue sur la page de paramétrage de Saloon Murder Party. </p>
+    <h1 id="pageTitle">Saloon Murder Party! </h1>
+    <p id="intro">
+        Bienvenue sur la page de paramétrage de Saloon Murder Party.<br/>
+        Si vous souhaitez rejoindre le salon en tant que participant, visitez
+        <a href="localhost:8080" target="_blank">localhost:8080</a> depuis votre smartphone.
+    </p>
 
-      <fieldset>
+      <fieldset id="settings">
         <legend>Paramètres</legend>
         <ul>
           <li>
@@ -29,11 +33,11 @@
               <option value="4">
               <option value="5">
             </datalist>
-            <span id="rangeBoxLg">3</span>
+            <span id="rangeBoxLg">1</span>
           </li>
           <li>
             <label for="nbVil">Combien de villageois:</label>
-            <input id="nbVil" name="nbVil"type="range" list="tickmarksVil" min="0" max="20" step="1" placeholder="2">
+            <input id="nbVil" name="nbVil"type="range" list="tickmarksVil" min="0" max="20" step="1" placeholder="1">
             <datalist id="tickmarksVil">
               <option value="0">
               <option value="2">
@@ -47,10 +51,10 @@
               <option value="18">
               <option value="20">
             </datalist>
-            <span id="rangeBoxVil">10</span>
+            <span id="rangeBoxVil">1</span>
           </li>
           <li>
-            <p>Le nombre de joueur est de <span id="nbJoueur">13</span></p>
+            <p>Le nombre de cartes est de <span id="nbJoueur">2</span>.</p>
           </li>
           <li>
             <button id="create" type="button">Lancer la partie</button>

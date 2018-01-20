@@ -13,6 +13,9 @@ var rangeBoxVil;
 var bJoin = document.getElementById('join');
 var bCreate = document.getElementById('create');
 let playersCount = document.getElementById('connectedPlayersCount');
+let settings = document.getElementById('settings');
+let title = document.getElementById('pageTitle');
+let intro = document.getElementById('intro');
 
 document.getElementById('nbLoup').onchange = function(){
   document.getElementById('rangeBoxLg').innerHTML  = parseInt(nbLoup.value);
@@ -37,6 +40,9 @@ bCreate.onclick = function(){
         nbVil = document.getElementById("nbVil").value;
         /* create(idServ,playerName)*/
         socket.emit('launchGame');
+        settings.style.display = 'none';
+        title.innerText = 'Partie lancée !';
+        intro.style.display = 'none';
     }
     else
         alert('Il n\'y a pas autant de cartes que de joueurs connectés !');
@@ -54,6 +60,15 @@ function startWaitingForPlayers() {
     socket.emit('saloonReady');
 }
 
+socket.on('disconnect', (reason) => {
+    console.log('Perte de connexion avec le serveur : ' + reason);
+    socket.close();
+    closeSaloon();
+});
+
+function closeSaloon() {
+    document.location.href="main.html";
+}
 
 
 /*

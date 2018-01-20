@@ -5,10 +5,11 @@ var gameEngine = require('./assets/server/js/gameEngine');
 
 let clientPort = 8080;
 let serverPort = 8081;
+var clientServer = undefined;
 
 // Array contenant les sockets s'étant connectés au serveur
 let sockets = [];
-let adminSocket;
+let adminSocket = undefined;
 
 // -----------------------------------------------------------------------------
 // Serveur principal
@@ -49,6 +50,18 @@ ioadmin.sockets.on('connection', function (socket) {
         socket.emit('adminJoined');
     });
 
+    socket.on('disconnect', (reason) => {
+        console.log('Connexion à l\'interface admin perdue : ' + reason);
+        clientServer.close();
+        clientServer = undefined;
+        // TODO send info to clients
+        for(let i=0, len=sockets.length; i<len; i++) {
+            let tmp = sockets[i];
+            // tmp.disconnect();
+        }
+        sockets = [];
+    });
+
     socket.on('saloonReady', () => {
         createClientSocketListeners();
     });
@@ -70,7 +83,7 @@ function updatePlayers(players) {
 function createClientSocketListeners() {
 
     // Chargement du fichier index.html affiché au client
-    var clientServer = http.createServer(function(req, res) {
+    clientServer = http.createServer(function(req, res) {
         let filename = req.url;
 
         if(filename === '/')
