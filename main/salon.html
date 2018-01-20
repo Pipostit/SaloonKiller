@@ -2,15 +2,16 @@
 
 <html>
   <head>
-
     <title>Saloon Murder</title>
     <meta charset="UTF-8">
-
   </head>
 
-  <script src="/socket.io/socket.io.js"></script>
-
   <body>
+      <script type="text/javascript">
+          window.addEventListener('load', () => {
+              startWaitingForPlayers();
+          });
+      </script>
     <h1> Saloon Murder Party! </h1>
     <p> Bienvenue sur la page de paramétrage de Saloon Murder Party. </p>
 
@@ -55,12 +56,17 @@
             <button id="create" type="button">Lancer la partie</button>
           </li>
         </ul>
+    </fieldset>
 
+    <fieldset>
+        <legend>Participants</legend>
+        <p id="connectedPlayers"></p>
     </fieldset>
   </body>
 
 <footer>
-  <script type="text/javascript" src="main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 </footer>
 
 </html>

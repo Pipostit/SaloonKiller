@@ -1,5 +1,4 @@
-
-var port = 8080;
+var port = 8081;
 var socket = io.connect('http://localhost:' + port);
 socket.emit('Admin', 'admin');
   //document.getElementById("pseudo").value);
@@ -17,7 +16,6 @@ var bCreate = document.getElementById('create');
 document.getElementById('nbLoup').onchange = function(){
   document.getElementById('rangeBoxLg').innerHTML  = parseInt(nbLoup.value);
   document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
-
 } ;
 
 document.getElementById('nbVil').onchange = function(){
@@ -25,18 +23,30 @@ document.getElementById('nbVil').onchange = function(){
   document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
 } ;
 
+/*
 bJoin.onclick = function(){
   idServ = document.getElementById("saloon").value;
   var startSetting = {};
   socket.emit('serverSettings', startSetting);
-};
+};*/
 
 bCreate.onclick = function(){
   nbLoup = document.getElementById("nbLoup").value;
   nbVil = document.getElementById("nbVil").value;
   /* create(idServ,playerName)*/
-
+  socket.emit('launchGame');
 };
+
+socket.on('updatePlayers', (players) => {
+    updateConnectedPlayers(players);
+});
+function updateConnectedPlayers(players) {
+    document.getElementById('connectedPlayers').innerText = players;
+}
+
+function startWaitingForPlayers() {
+    socket.emit('saloonReady');
+}
 
 
 
