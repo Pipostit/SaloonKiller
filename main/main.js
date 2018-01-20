@@ -35,7 +35,8 @@ bJoin.onclick = function(){
 };*/
 
 bCreate.onclick = function(){
-    if(playersCount.innerText == document.getElementById('nbJoueur').innerText) {
+    if(playersCount.innerText == document.getElementById('nbJoueur').innerText &&
+        playersCount.innerText !== '0') {
         nbLoup = document.getElementById("nbLoup").value;
         nbVil = document.getElementById("nbVil").value;
         /* create(idServ,playerName)*/
@@ -44,6 +45,8 @@ bCreate.onclick = function(){
         title.innerText = 'Partie lancée !';
         intro.style.display = 'none';
     }
+    else if(playersCount.innerText === '0')
+        alert('Impossible de lancer une partie avec aucun joueur !');
     else
         alert('Il n\'y a pas autant de cartes que de joueurs connectés !');
 };
