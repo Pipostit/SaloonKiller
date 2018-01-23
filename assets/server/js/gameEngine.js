@@ -28,18 +28,17 @@ let gameEngine = (function() {
       *};
       * @todo remplir la pile en fonction des roles demandés
       **/
-    self.initGame = (startSetting,n) => {
+    self.initGame = (startSettings, n) => {
         console.log('\nInitialisation de la partie avec ' + n + ' joueurs...\n');
+        console.log(startSettings);
+
+        for (var [role, nb] of startSettings) {
+            for(let i=0; i<nb; i++){
+                cards.push(self.cardsEnum[role]);
+            };
+        };
 
         /*
-        for (var [role, nb] of startSetting) {
-          for(let i =0;i<nb;i++){
-            cards.push(self.cardsEnum[role]);
-          };
-        };
-        cards = shuffleCard(cards);
-        */
-
         let middle = Math.ceil(n/2);
 
 
@@ -49,7 +48,7 @@ let gameEngine = (function() {
             } else {
                 cards.push(self.cardsEnum.loupgarou);
             }
-        }
+        }*/
         console.log('La pile de cartes a été remplie avec assez de cartes et mélangée.')
     };
 

@@ -66,8 +66,8 @@ ioadmin.sockets.on('connection', function (socket) {
         createClientSocketListeners();
     });
 
-    socket.on('launchGame', () => {
-        launchGame();
+    socket.on('launchGame', (settings) => {
+        launchGame(settings);
     });
 });
 
@@ -168,144 +168,7 @@ function createClientSocketListeners() {
         });
 
         socket.on('serverSettings', function(startSetting){
-        /*setting = {
-    <<<<<<< HEAD
-            "chasseur": 1,
-            "cupidon":1,
-            "loupgarou":2,
-            "petitefille":1,
-            "sorciere":1,
-            "villageois":6,
-            "voleur":1,
-            "voyante":1
-          };if(socket.isAdmin()){
-              if (startSetting['loupgarou']<0) {
-                socket.emit("Nombre de loup garou négatif...");
-                return
-              }else{
-              let nbLg = startSetting['loupgarou'];
-              };
-              if (startSetting['villageois']<0) {
-                socket.emit("Nombre de villageois négatif...");
-                return
-              }else{
-                let nbVil = startSetting['villageois'];
-              };
-
-              if(startSetting['chasseur']>1||startSetting['chasseur']<0){
-                socket.emit("trop de chasseur");
-                return;
-              }else{
-                let nbCha = startSetting['chasseur'];
-              };
-
-              if(startSetting['cupidon']>1||startSetting['cupidon']<0){
-                socket.emit("trop de cupidon");
-                return;
-              }else{
-                let nbCup = startSetting['cupidon'];
-              };
-              if(startSetting['petitefille']>1||startSetting['petitefille']<0){
-                socket.emit("trop de petite fille");
-                return;
-              }else{
-                let nbPf = startSetting['petitefille'];
-              };
-              if(startSetting['sorciere']>1||startSetting['sorciere']<0){
-                socket.emit("trop de sorciere");
-                return;
-              }else{
-                let nbSor = startSetting['sorciere'];
-              };
-              if(startSetting['voleur']>1||startSetting['voleur']<0){
-                socket.emit("trop de voleur");
-                return;
-              }else{
-                let nbVol = startSetting['voleur'];
-              };
-              if(startSetting['voyante']>1||startSetting['voyante']<0){
-                socket.emit("trop de voyante");
-                return;
-              }else{
-                let nbVoy = startSetting['voyante'];
-              };
-
-              if(nbVoy-2*nbVol+nbSor+nbLg+nbVil+nbPf+nbCha+nbCup!=sockets.length){
-                socket.emit("Mauvaise configuration: Le nombre de carte ne convient pas au nombre de joueurs.")
-                return
-              }else{
-                launchGame(startSetting);
-              }
-            }
-
-          });
-    // =======
-    /*
-            "nChasseur": 1,
-            "nCupidon":1,
-            "nloupgarou":2,
-            "nPetitefille":1,
-            "nSorciere":1,
-            "nVillageois":6,
-            "nVoleur":1,
-            "nVoyante":1
-        };
-            if (startSetting['nLoupgarou']<0) {
-              socket.emit("Nombre de loup garou négatif...");
-              return
-            }else{
-            let nbLg = startSetting['nLoupgarou'];
-            };
-            if (startSetting['nVillageois']<0) {
-              socket.emit("Nombre de villageois négatif...");
-              return
-            }else{
-              let nbVil = startSetting['nVillageois'];
-            };
-
-            if(startSetting['nChasseur']>1||startSetting['nChasseur']<0){
-              socket.emit("trop de chasseur");
-              return;
-            }else{
-              let nbCha = startSetting['nbChasseur'];
-            };
-
-            if(startSetting['nCupidon']>1||startSetting['nCupidon']<0){
-              socket.emit("trop de cupidon");
-              return;
-            }else{
-              let nbCup = startSetting['nCupidon'];
-            };
-            if(startSetting['nPetitefille']>1||startSetting['nPetitefille']<0){
-              socket.emit("trop de petite fille");
-              return;
-            }else{
-              let nbPf = startSetting['nPetitefille'];
-            };
-            if(startSetting['nSorciere']>1||startSetting['nSorciere']<0){
-              socket.emit("trop de sorciere");
-              return;
-            }else{
-              let nbSor = startSetting['nSorciere'];
-            };
-            if(startSetting['nVoleur']>1||startSetting['nVoleur']<0){
-              socket.emit("trop de voleur");
-              return;
-            }else{
-              let nbVol = startSetting['nVoleur'];
-            };
-            if(startSetting['nVoyante']>1||startSetting['nVoyante']<0){
-              socket.emit("trop de voyante");
-              return;
-            }else{
-              let nbVoy = startSetting['nVoyante'];
-            };
-
-            if(nbVoy-2*nbVol+nbSor+nbLg+nbVil+nbPf+nbCha+nbCup!=sockets.length){
-              socket.emit("Mauvaise configuration: Le nombre de carte ne convient pas au nombre de joueurs.")
-              return
-            }else{}
-    */
+            // Vérification des paramètres déplacée dans le client admin (checking.js)
         });
 
     });
@@ -361,12 +224,12 @@ function isPseudoAlreadyUsed(pseudo) {
     return false;
 }
 
-function launchGame(startSetting) {
+function launchGame(startSettings) {
 
     let playersCount = getConnectedPlayersCount();
 
     // gameEngine.initGame(startSetting,sockets.length);
-    gameEngine.initGame(undefined, getConnectedPlayersCount());
+    gameEngine.initGame(startSettings, getConnectedPlayersCount());
 
     // distribution des cartes
     for(let i in sockets) {
@@ -376,7 +239,7 @@ function launchGame(startSetting) {
     }
 
     // lancement de la partie
-    gameEngine.launchGame();
+    gameEngine.launchGame(startSettings);
 }
 
 function resetSaloon() {

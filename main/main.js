@@ -13,7 +13,7 @@ var rangeBoxVil;
 var bJoin = document.getElementById('join');
 var bCreate = document.getElementById('create');
 let playersCount = document.getElementById('connectedPlayersCount');
-let settings = document.getElementById('settings');
+let settingsWindow = document.getElementById('settings');
 let title = document.getElementById('pageTitle');
 let intro = document.getElementById('intro');
 
@@ -35,13 +35,27 @@ bJoin.onclick = function(){
 };*/
 
 bCreate.onclick = function(){
+
+    // création de l'objet paramètres
+    let settings = {
+        "chasseur": undefined,
+        "cupidon": undefined,
+        "loupgarou": document.getElementById("nbLoup").value,
+        "petitefille": undefined,
+        "sorciere": undefined,
+        "villageois": document.getElementById("nbVil").value,
+        "voleur": undefined,
+        "voyante": undefined
+    };
+
+    if(!checkSettings(settings))
+        return ;
+
     if(playersCount.innerText == document.getElementById('nbJoueur').innerText &&
         playersCount.innerText !== '0') {
-        nbLoup = document.getElementById("nbLoup").value;
-        nbVil = document.getElementById("nbVil").value;
         /* create(idServ,playerName)*/
-        socket.emit('launchGame');
-        settings.style.display = 'none';
+        socket.emit('launchGame', settings);
+        settingsWindow.style.display = 'none';
         title.innerText = 'Partie lancée !';
         intro.style.display = 'none';
     }
