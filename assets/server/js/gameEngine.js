@@ -32,23 +32,13 @@ let gameEngine = (function() {
         console.log('\nInitialisation de la partie avec ' + n + ' joueurs...\n');
         console.log(startSettings);
 
-        for (var [role, nb] of startSettings) {
-            for(let i=0; i<nb; i++){
-                cards.push(self.cardsEnum[role]);
-            };
-        };
+        let keys = Object.keys(startSettings);
+        for(let i=0,len=keys.length; i<len; i++) {
+            let curr = keys[i];
+            cards.push(self.cardsEnum[curr]);
+        }
+        cards = shuffleCard(cards);
 
-        /*
-        let middle = Math.ceil(n/2);
-
-
-        for(let i=0; i<n; i++) {
-            if(i<middle) {
-                cards.push(self.cardsEnum.villageois);
-            } else {
-                cards.push(self.cardsEnum.loupgarou);
-            }
-        }*/
         console.log('La pile de cartes a été remplie avec assez de cartes et mélangée.')
     };
 
