@@ -35,7 +35,9 @@ let gameEngine = (function() {
         let keys = Object.keys(startSettings);
         for(let i=0,len=keys.length; i<len; i++) {
             let curr = keys[i];
-            cards.push(self.cardsEnum[curr]);
+            for(let j=0;len = parseInt(startSetting[curr]);j++){
+              cards.push(self.cardsEnum[curr]);
+            }
         }
         cards = shuffleCard(cards);
 
