@@ -6,10 +6,19 @@ socket.emit('Admin', 'admin');
 var idServ;
 var bJoin;
 var bCreate;
+
 var nbLoup = document.getElementById('nbLoup');
 var nbVil = document.getElementById('nbVil');
+var cbCupidon = document.getElementById('cupidonBox');
+var cbChasseur = document.getElementById('chasseurBox');
+var cbVoyante = document.getElementById('voyanteBox');
+var cbVoleur = document.getElementById('voleurBox');
+var cbPetiteFille = document.getElementById('petiteFilleBox');
+var cbSorciere = document.getElementById('sorciereBox');
+
 var rangeBoxLg;
 var rangeBoxVil;
+
 var bJoin = document.getElementById('join');
 var bCreate = document.getElementById('create');
 let playersCount = document.getElementById('connectedPlayersCount');
@@ -17,16 +26,52 @@ let settingsWindow = document.getElementById('settings');
 let title = document.getElementById('pageTitle');
 let intro = document.getElementById('intro');
 
+cbCupidon.onchange = function(){
+  cbCupidon.value = this.checked ? 1 : 0;
+  updatePlayerCount();
+};
+cbChasseur.onchange = function(){
+  cbChasseur.value = this.checked ? 1 : 0;
+  updatePlayerCount();
+};
+cbVoyante.onchange = function(){
+  cbVoyante.value = this.checked ? 1 : 0;
+  updatePlayerCount();
+};
+cbVoleur.onchange = function(){
+  cbVoleur.value = this.checked ? 2 : 0;
+  updatePlayerCount();
+};
+cbPetiteFille.onchange = function(){
+  cbPetiteFille.value = this.checked ? 1 : 0;
+  updatePlayerCount();
+};
+cbSorciere.onchange = function(){
+  cbSorciere.value = this.checked ? 1 : 0;
+  updatePlayerCount();
+};
+
 document.getElementById('nbLoup').onchange = function(){
-  document.getElementById('rangeBoxLg').innerHTML  = parseInt(nbLoup.value);
-  document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
+
+  document.getElementById('rangeBoxLg').innerHTML  = 0;
+  updatePlayerCount()
+
 } ;
 
 document.getElementById('nbVil').onchange = function(){
   document.getElementById('rangeBoxVil').innerHTML  = parseInt(nbVil.value);
-  document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
+  updatePlayerCount()
 } ;
 
+function updatePlayerCount(){
+  var n = 0;
+  var i;
+  inputs = document.getElementsByTagName("li input");
+  for(i=0;i<inputs.length; i++)
+    n+=parseInt(inputs.elements[i].value);
+  document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
+
+}
 /*
 bJoin.onclick = function(){
   idServ = document.getElementById("saloon").value;
