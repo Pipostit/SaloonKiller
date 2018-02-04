@@ -53,7 +53,7 @@ cbSorciere.onchange = function(){
 
 document.getElementById('nbLoup').onchange = function(){
 
-  document.getElementById('rangeBoxLg').innerHTML  = 0;
+  document.getElementById('rangeBoxLg').innerHTML  = parseInt(nbLoup.value);
   updatePlayerCount()
 
 } ;
@@ -85,20 +85,20 @@ bCreate.onclick = function(){
 
     // création de l'objet paramètres
     let settings = {
-        "chasseur": undefined,
-        "cupidon": undefined,
+        "chasseur": cbChasseur.value,
+        "cupidon": cbCupidon.value,
         "loupgarou": document.getElementById("nbLoup").value,
-        "petitefille": undefined,
-        "sorciere": undefined,
+        "petitefille": cbPetiteFille.value,
+        "sorciere": cbSorciere.value,
         "villageois": document.getElementById("nbVil").value,
-        "voleur": undefined,
-        "voyante": undefined
+        "voleur": cbVoleur.value,
+        "voyante": cbVoyante.value
     };
 
     if(!checkSettings(settings))
         return ;
 
-    if(playersCount.innerText == document.getElementById('nbJoueur').innerText &&
+    if(playersCount.innerText + 2*cbVoleur.value == document.getElementById('nbJoueur').innerText &&
         playersCount.innerText !== '0') {
         /* create(idServ,playerName)*/
         socket.emit('launchGame', settings);
@@ -109,7 +109,7 @@ bCreate.onclick = function(){
     else if(playersCount.innerText === '0')
         alert('Impossible de lancer une partie avec aucun joueur !');
     else
-        alert('Il n\'y a pas autant de cartes que de joueurs connectés !');
+        alert('Il n\'y a pas assez de cartes pour les joueurs connectés !');
 };
 
 socket.on('updatePlayers', (players) => {
