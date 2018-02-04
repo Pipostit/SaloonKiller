@@ -98,7 +98,7 @@ bCreate.onclick = function(){
     if(!checkSettings(settings))
         return ;
 
-    if(playersCount.innerText + 2*cbVoleur.value == document.getElementById('nbJoueur').innerText &&
+    if(parseInt(playersCount.innerText) + 2*parseInt(cbVoleur.value) == parseInt(document.getElementById('nbJoueur').innerText) &&
         playersCount.innerText !== '0') {
         /* create(idServ,playerName)*/
         socket.emit('launchGame', settings);
