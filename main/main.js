@@ -39,7 +39,7 @@ cbVoyante.onchange = function(){
   updatePlayerCount();
 };
 cbVoleur.onchange = function(){
-  cbVoleur.value = this.checked ? 2 : 0;
+  cbVoleur.value = this.checked ? 1 : 0;
   updatePlayerCount();
 };
 cbPetiteFille.onchange = function(){
@@ -66,10 +66,12 @@ document.getElementById('nbVil').onchange = function(){
 function updatePlayerCount(){
   var n = 0;
   var i;
-  inputs = document.getElementsByTagName("li input");
-  for(i=0;i<inputs.length; i++)
-    n+=parseInt(inputs.elements[i].value);
-  document.getElementById('nbJoueur').innerHTML = parseInt(nbLoup.value)+parseInt(nbVil.value);
+  var inputs = document.getElementsByTagName("input");
+  for(i=0;i<inputs.length; i++){
+    n= n+ parseInt(inputs.item(i).value);
+    console.log(inputs.item(i).value);
+  }
+  document.getElementById('nbJoueur').innerHTML = n;
 
 }
 /*
