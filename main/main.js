@@ -69,7 +69,6 @@ function updatePlayerCount(){
   var inputs = document.getElementsByTagName("input");
   for(i=0;i<inputs.length; i++){
     n= n+ parseInt(inputs.item(i).value);
-    console.log(inputs.item(i).value);
   }
   document.getElementById('nbJoueur').innerHTML = n;
 
