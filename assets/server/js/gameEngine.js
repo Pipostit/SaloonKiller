@@ -1,6 +1,7 @@
 let gameEngine = (function() {
     let self = this;
     let cards = [];
+    let state = 0; // La partie n'est pas encore lancée
     self.cardsEnum = Object.freeze({
         "chasseur":1,
         "cupidon":2,
@@ -64,12 +65,69 @@ let gameEngine = (function() {
       **/
     self.launchGame = () => {
         console.log('\nLancement de la partie...\n');
+        state = 5; //Lancement de la Partie, state 5 correspond au tour du voleur
     };
+
+    self.nextState = (param) =>{
+      /**
+        * @param {Integer} n - nombre de joueurs
+        *setting = {
+        *  "chasseur": 1,
+        *  "cupidon":1,
+        *  "loupgarou":2,
+        *  "petitefille":1,
+        *  "sorciere":1,
+        *  "villageois":6,
+        *  "voleur":1,
+        *  "voyante":1
+        *};
+        * @todo remplir la pile en fonction des roles demandés
+        **/
+      currentState = state;
+
+      switch(currentState) {
+        case 1:
+            if(param){
+              state = -1; //fin de la Partie
+            }else{
+              state = 2; //Début du débat
+            }
+            break;
+        case 2:
+            state = 3; //Lancement du vote du village
+            break;
+        case 3:
+            state = 4; //Elimination d'un joueur et début de la nuit
+            break
+        case 4:
+          state =  5;// tour Voleur
+          break
+        case 5:
+          state =  6;// tour Voyante
+          break
+        case 6:
+          state =  7;// tour loups
+          break
+        case 7:
+          state =  8;// tour sorciere
+          break
+        case 8:
+          state =  1;// fin de la nuit
+          break
+
+        default:
+          state = 0; //Probleme
+      }
+
+    }
 
     return self;
 })();
 
 module.exports = gameEngine;
+
+
+
 
 
 function getRandomInt(min, max) {
@@ -78,7 +136,6 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
-
 function shuffleCard(deck){
     /*
       function return a shuffle version of the deck
