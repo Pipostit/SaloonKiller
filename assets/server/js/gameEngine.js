@@ -67,7 +67,53 @@ let gameEngine = (function() {
         console.log('\nLancement de la partie...\n');
         state = 5; //Lancement de la Partie, state 5 correspond au tour du voleur
     };
+    self.currentBroadcastMessage = () =>{
+      // Renvoie le message qui va être broadcast au joueurs pendant le tour sous la forme {'m':msg,'gm':gameMessage}
+      // gameMessage represente le tour et msg le message qui sera affiché dans le jeu
+      let gameMessage = "";
+      let msg = ""
+      switch(self.state){
+      case 1:
+        gameMessage = "wakeUp";
+        msg = "Le village se réveille.";
+        break;
 
+      case 2:
+        msg = "debate";
+        gameMessage = "C'est l'heure du débat!";
+      break;
+      case 3:
+        msg = "vote";
+        gameMessage = "C'est l'heure du vote!";
+        break;
+
+      case 4:
+        msg = "killByVillage";
+        gameMessage = "Le village à voté! Il execute quelqu'un et s'endort";
+        break;
+      case 5:
+        gameMessage = "voleur";
+        msg = "C'est le tour du voleur.";
+        break;
+
+      case 6:
+        msg = "voyante";
+        gameMessage = "C'est le tour de la voyante.";
+      break;
+      case 7:
+        gameMessage = "loup";
+        msg = "C'est le tour des loups.";
+        break;
+
+      case 8:
+        msg = "sorciere";
+        gameMessage = "C'est le tour de la sorcière.";
+      break;
+      return {m:msg,gm:gameMessage}
+      }
+
+
+    }
     self.nextState = (param) =>{
       /**
         * @param {Integer} n - nombre de joueurs

@@ -242,50 +242,15 @@ function launchGame(startSettings) {
     gameEngine.launchGame(startSettings);
 
     while(gameEngine.state>0){
-      let gameMessage = "";
-      let msg = ""
-      switch(gameEngine){
-      case 1:
-        gameMessage = "wakeUp";
-        msg = "Le village se réveille.";
-        break;
 
-      case 2:
-        msg = "debate";
-        gameMessage = "C'est l'heure du débat!";
-      break;
-      case 3:
-        msg = "vote";
-        gameMessage = "C'est l'heure du vote!";
-        break;
+      //Recupération du message a broadcast, annonçant le personnage dont c'est le tour
+      let m = gameEngine.currentBroadcastMessage();
 
-      case 4:
-        msg = "killByVillage";
-        gameMessage = "Le village à voté! Le village s'endort";
-        break;
-      case 5:
-        gameMessage = "voleur";
-        msg = "C'est le tour du voleur.";
-        break;
+      // On broadcast ce message
+      io.sockets.emit('broadcast',m);
 
-      case 6:
-        msg = "voyante";
-        gameMessage = "C'est le tour de la voyante.";
-      break;
-      case 7:
-        gameMessage = "loup";
-        msg = "C'est le tour des loups.";
-        break;
 
-      case 8:
-        msg = "sorciere";
-        gameMessage = "C'est le tour de la sorcière.";
-      break;
 
-      }
-      for(let i in sockets){
-        sockets[i].emit(msg,gameMessage);
-      }
       // Attendre les réponses
       // Effectuer les assignations de paramètres
 
