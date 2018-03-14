@@ -3,6 +3,8 @@ var fs = require('fs');
 var path = require('path');
 var gameEngine = require('./assets/server/js/gameEngine');
 
+var io;
+
 let clientPort = 8080;
 let serverPort = 8081;
 var clientServer = undefined;
@@ -29,9 +31,17 @@ var indexServer = http.createServer(function(req, res) {
         res.end(content);
     });
 });
+
+
+
+
 indexServer.listen(serverPort);
 
+
+
 var ioadmin = require('socket.io').listen(indexServer);
+
+
 ioadmin.sockets.on('connection', function (socket) {
 
     adminSocket = socket;
@@ -44,7 +54,7 @@ ioadmin.sockets.on('connection', function (socket) {
         }
         socket.pseudo = pseudo;
         socket.isAdmin() = function(){return true;};
-        console.log(pseudo + ' a rejoint la partie en tant qu\'admi !');
+        console.log(pseudo + ' a rejoint la partie en tant qu\'admin !');
         sockets.push(socket);
         // Confirmation au client qu'il est connecté au serveur
         socket.emit('adminJoined');
@@ -119,7 +129,7 @@ function createClientSocketListeners() {
         });
     });
 
-    var io = require('socket.io').listen(clientServer);
+    io = require('socket.io').listen(clientServer);
 
 
     // Quand un client se connecte, on le note dans la console
@@ -127,7 +137,7 @@ function createClientSocketListeners() {
         // Fonction callback, qui initialise tous les listeners avec les clients
 
         // Envoie un message à tous les clients connectés
-    	// socket.broadcast.emit('message', 'Un autre joueur vient de se connecter !');
+    	  // socket.broadcast.emit('message', 'Un autre joueur vient de se connecter !');
 
         // Envoie un message via le socket courant
         // socket.emit('message', 'yo test');
@@ -182,9 +192,64 @@ console.log('Serveur LoupGarou lancé sur le port ' + serverPort + '...');
 console.log('-------------------------------------------------------------------');
 
 
+
+
+
+
+
 // -----------------------------------------------------------------------------
 // Fonctions internes
 // -----------------------------------------------------------------------------
+function launchGame(startSettings) {
+
+    let playersCount = getConnectedPlayersCount();
+
+    // gameEngine.initGame(startSetting,sockets.length);
+    gameEngine.initGame(startSettings, getConnectedPlayersCount());
+
+    // distribution des cartes
+    for(let i in sockets) {
+        let card = gameEngine.getCard();
+        sockets[i].card = card;
+
+        // On pose un argument permettant de determiner si le joueur est en vient
+        sockets[i].enVie= true;
+
+        // On pose un argument permettant de savoir si le joueur est amoureux
+        sockets[i].amoureux = false;
+
+        sockets[i].emit('gameStarted', card);
+    }
+
+    // lancement de la partie
+    gameEngine.launchGame(startSettings);
+    console.log('\n Etat actuel: \n'+gameEngine.state);
+    while(gameEngine.state>0){
+
+      //Recupération du message a broadcast, annonçant le personnage dont c'est le tour
+      let m;
+      m = gameEngine.currentBroadcastMessage();
+
+      // On broadcast ce message
+      console.log(m);
+      ioadmin.emit(m[1],m[2]);
+
+
+
+      // Attendre les réponses
+      // Effectuer les assignations de paramètres
+
+
+      // on passe a l'état suivant
+      gameEngine.nextState(sockets);
+
+    };
+
+
+}
+
+
+
 
 function getFormattedTime() {
     return '[' +
@@ -222,43 +287,6 @@ function isPseudoAlreadyUsed(pseudo) {
         if(players[i] === pseudo)
             return true;
     return false;
-}
-
-function launchGame(startSettings) {
-
-    let playersCount = getConnectedPlayersCount();
-
-    // gameEngine.initGame(startSetting,sockets.length);
-    gameEngine.initGame(startSettings, getConnectedPlayersCount());
-
-    // distribution des cartes
-    for(let i in sockets) {
-        let card = gameEngine.getCard();
-        sockets[i].card = card;
-        sockets[i].emit('gameStarted', card);
-    }
-
-    // lancement de la partie
-    gameEngine.launchGame(startSettings);
-
-    while(gameEngine.state>0){
-
-      //Recupération du message a broadcast, annonçant le personnage dont c'est le tour
-      let m = gameEngine.currentBroadcastMessage();
-
-      // On broadcast ce message
-      io.sockets.emit('broadcast',m);
-
-
-
-      // Attendre les réponses
-      // Effectuer les assignations de paramètres
-
-      gameEngine.nextState(param);
-
-    };
-
-
 }
 
 function resetSaloon() {

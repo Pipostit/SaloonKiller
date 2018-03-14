@@ -2,6 +2,16 @@ let gameEngine = (function() {
     let self = this;
     let cards = [];
     let state = 0; // La partie n'est pas encore lancée
+    self.setting =  {
+        "chasseur": 0,
+        "cupidon": 0,
+        "loupgarou": 0,
+        "petitefille": 0,
+        "sorciere": 0,
+        "villageois": 0,
+        "voleur": 0,
+        "voyante": 0
+    };
     self.cardsEnum = Object.freeze({
         "chasseur":1,
         "cupidon":2,
@@ -32,7 +42,7 @@ let gameEngine = (function() {
     self.initGame = (startSettings, n) => {
         console.log('\nInitialisation de la partie avec ' + n + ' joueurs...\n');
         console.log(startSettings);
-
+        self.setting = startSettings;
         let keys = Object.keys(startSettings);
         for(let i=0,len=keys.length; i<len; i++) {
             let curr = keys[i];
@@ -65,13 +75,13 @@ let gameEngine = (function() {
       **/
     self.launchGame = () => {
         console.log('\nLancement de la partie...\n');
-        state = 5; //Lancement de la Partie, state 5 correspond au tour du voleur
+        self.state = 5; //Lancement de la Partie, state 5 correspond au tour du voleur
     };
     self.currentBroadcastMessage = () =>{
       // Renvoie le message qui va être broadcast au joueurs pendant le tour sous la forme {'m':msg,'gm':gameMessage}
       // gameMessage represente le tour et msg le message qui sera affiché dans le jeu
-      let gameMessage = "";
-      let msg = ""
+      let gameMessage = "gameMessage par defaut";
+      let msg = "msg par defaut"
       switch(self.state){
       case 1:
         gameMessage = "wakeUp";
@@ -109,60 +119,93 @@ let gameEngine = (function() {
         msg = "sorciere";
         gameMessage = "C'est le tour de la sorcière.";
       break;
-      return {m:msg,gm:gameMessage}
+      }
+      return [msg,gameMessage];
+    }
+
+    // Fonction vérifiant si la partie doit continuer
+    self.itIsTheEnd = (sockets) =>{
+
+      // Flag permet de determiner si la partie continue ou non
+      // On va dans un premier temps vérifier si les amoureux ont gagné
+      let nbJoueur = 0;
+      let nbAmoureux = 0;
+      for(let i in sockets){
+        if(sockets[i].enVie){
+          nbJoueur+=1;
+          if(sockets[i].amoureux){
+            nbAmoureux += 1
+          }
+        }
+      }
+      if(nbAmoureux == nbJoueur){
+        return true;
+      }
+      // On regarde ensuite si les villageois ont tué tous les loupsgarous
+
+      else if(setting.loupgarou==0){
+        return true;
+
+      // On vérifie le cas de la victoire des loupsgarous
+      }else{
+
+        // Keys represente une liste de tous les rôles sous la forme d'une liste de chaine de caractères
+        let keys = Object.keys(setting);
+
+        for(let i=0,len=keys.length; i<len; i++) {
+
+            // role represente le role que l'on est en train de vérifier, comme une chaîne de caractères
+            let role = keys[i];
+
+            if(role != "loupgarou" && setting[role] > 0 ){
+              return false
+            }
+          }
       }
 
-
+      return true
     }
-    self.nextState = (param) =>{
-      /**
-        * @param {Integer} n - nombre de joueurs
-        *setting = {
-        *  "chasseur": 1,
-        *  "cupidon":1,
-        *  "loupgarou":2,
-        *  "petitefille":1,
-        *  "sorciere":1,
-        *  "villageois":6,
-        *  "voleur":1,
-        *  "voyante":1
-        *};
-        * @todo remplir la pile en fonction des roles demandés
-        **/
-      currentState = state;
+    self.nextState = (sockets) =>{
+      currentState = self.state;
 
       switch(currentState) {
         case 1:
-            if(param){
-              state = -1; //fin de la Partie
+            let flag1 = self.itIsTheEnd(sockets);
+            if(flag1){
+              self.state = -1; //fin de la Partie
             }else{
-              state = 2; //Début du débat
+              self.state = 2; //Début du débat
             }
             break;
         case 2:
-            state = 3; //Lancement du vote du village
+            self.state = 3; //Lancement du vote du village
             break;
         case 3:
-            state = 4; //Elimination d'un joueur et début de la nuit
-            break
+          let flag3 = self.itIsTheEnd(sockets);
+          if(flag3){
+            self.state = -1; //fin de la Partie
+          }else{
+            self.state =  4; //Elimination d'un joueur et début de la nuit
+          }
+          break;
         case 4:
-          state =  5;// tour Voleur
+          self.state =  5;// tour Voleur
           break
         case 5:
-          state =  6;// tour Voyante
+          self.state =  6;// tour Voyante
           break
         case 6:
-          state =  7;// tour loups
+          self.state =  7;// tour loups
           break
         case 7:
-          state =  8;// tour sorciere
+          self.state =  8;// tour sorciere
           break
         case 8:
-          state =  1;// fin de la nuit
+          self.state =  1;// fin de la nuit
           break
 
         default:
-          state = 0; //Probleme
+          self.state = 0; //Probleme
       }
 
     }
