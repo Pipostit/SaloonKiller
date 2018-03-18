@@ -1,0 +1,48 @@
+<html>
+
+    <head>
+    </head>
+
+    <body>
+
+        <button onclick="vote(1)">VOTE1</button>
+        <button onclick="vote(1)">VOTE2</button>
+        <button onclick="vote(2)">VOTE3</button>
+
+        <hr />
+
+        <button onclick="launch()">LAUNCH DECOMPTE</button>
+        <br />
+        <label id="counter">30</label>
+
+        <footer>
+            <script>
+                let chrono;
+                let players = 3;
+                let receivedVotes = 0;
+
+                function launch() {
+                    let counter = document.getElementById('counter');
+                    let time = 30;
+                    chrono = setInterval(() => {
+                        time--;
+                        counter.innerHTML = time;
+                        if(time === 0) {
+                            alert('TIME\'S UP!');
+                            clearInterval(chrono);
+                        }
+
+                    }, 1000);
+                }
+
+                function vote(target) {
+                    receivedVotes += 1;
+                    if(receivedVotes === players) {
+                        clearInterval(chrono);
+                        alert('OMG TOUT LE MONDE A VOTE!')
+                    }
+                }
+            </script>
+        </footer>
+    </body>
+</html>
