@@ -72,7 +72,7 @@ function updatePlayerCount(){
   var i;
   var inputs = document.getElementsByTagName("input");
   for(i=0;i<inputs.length; i++){
-    n= n+ parseInt(inputs.item(i).value);
+    n = n + +(inputs[i].value);
   }
   document.getElementById('nbJoueur').innerHTML = n;
 }
